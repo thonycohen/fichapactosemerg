@@ -89,3 +89,5 @@ public class UsuarioController {
             return ResponseEntity.ok("Perfil atualizado com sucesso!");
         }
         return ResponseEntity.notFound().
+    }
+}
