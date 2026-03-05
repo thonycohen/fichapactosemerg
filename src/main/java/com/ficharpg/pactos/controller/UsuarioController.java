@@ -88,6 +88,6 @@ public class UsuarioController {
             usuarioRepository.save(usuarioBanco); // Salva as alterações no MySQL
             return ResponseEntity.ok("Perfil atualizado com sucesso!");
         }
-        return ResponseEntity.notFound().
+        return ResponseEntity.notFound().;
     }
 }
