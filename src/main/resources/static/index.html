@@ -66,6 +66,53 @@
             width: 35px;
             height: 35px;
         }
+        /* Design da área de Upload de Foto */
+        .avatar-upload-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px dashed #a855f7;
+            background-color: #1e1e1e;
+            background-image: url('https://via.placeholder.com/120x120/1e1e1e/888888?text=FOTO'); /* Placeholder inicial */
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-preview:hover {
+            border-color: #d8b4fe;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+        }
+
+        .avatar-preview::after {
+            content: '📷 Trocar';
+            position: absolute;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8rem;
+            padding: 5px 0;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .avatar-preview:hover::after {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -81,6 +128,11 @@
         </a>
 
         <button onclick="salvarFicha()" class="btn btn-purple btn-sm position-absolute" style="right: 50px;"> Salvar Ficha </button>
+    </div>
+
+    <div>
+        <input type="file" id="inputFoto" accept="image/*" style="display: none;" onchange="enviarParaNuvem(event)">
+        <div class="avatar-preview" id="imagemPreview" onclick="document.getElementById('inputFoto').click()"></div>
     </div>
 
    <div class="row g-3 mb-4 bg-dark p-3 rounded border border-secondary">
@@ -470,6 +522,7 @@
 
             const dadosAtualizados = {
                 nome: pegarValor('ficha-nome', false),
+                fotoUrl: linkFotoAgente,
                 jogador: pegarValor('ficha-jogador', false),
                 origem: pegarValor('ficha-origem', false),
                 nivel: pegarValor('ficha-nivel'),
@@ -516,6 +569,41 @@
     
         // Executa o carregamento assim que a página abre
         carregarDadosDaFicha();
+    // Variável para guardar o link final que vai para o Java
+    let linkFotoAgente = "";
+    const IMGBB_API_KEY = "41d58ca7fde25e2553eb8a3f84e3ea9c";
+
+    async function enviarParaNuvem(event) {
+        const arquivo = event.target.files[0];
+        if (!arquivo) return;
+
+        // Muda a bolinha para "Carregando..."
+        document.getElementById('imagemPreview').style.backgroundImage = "url('https://via.placeholder.com/120x120/1e1e1e/888888?text=UP...')";
+
+        // Prepara o pacote com a foto
+        const formData = new FormData();
+        formData.append("image", arquivo);
+
+        try {
+            // Envia para o ImgBB (a chave vai direto na URL)
+            const resposta = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                method: "POST",
+                body: formData
+            });
+
+            const dados = await resposta.json();
+
+            if (dados.success) {
+                linkFotoAgente = dados.data.url; // Salva o link oficial gerado pelo ImgBB!
+                document.getElementById('imagemPreview').style.backgroundImage = `url('${linkFotoAgente}')`; // Mostra a foto na bolinha
+            } else {
+                alert("Erro ao subir a foto para a nuvem.");
+            }
+        } catch (erro) {
+            console.error(erro);
+            alert("Falha na conexão com o servidor de imagens.");
+        }
+    }
     </script>
 
 </body>

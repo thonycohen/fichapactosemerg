@@ -15,6 +15,10 @@ public class Agente {
     private String jogador = "";
     private String origem = "";
     private int nivel = 0;
+    private String fotoUrl; // Guarda apenas o link do Imgur
+
+
+
 
     // Status Vitais
     private int vidaMaxima = 10;
@@ -115,4 +119,8 @@ public class Agente {
 
     public String getInventarioDados() { return inventarioDados; }
     public void setInventarioDados(String inventarioDados) { this.inventarioDados = inventarioDados; }
+
+    // Gere o Getter e Setter lá embaixo:
+    public String getFotoUrl() { return fotoUrl; }
+    public void setFotoUrl(String fotoUrl) { this.fotoUrl = fotoUrl; }
 }
