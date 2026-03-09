@@ -14,6 +14,8 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String fotoUrl;
+
     // Podemos usar @Column para dar regras aos campos (ex: não pode ser vazio, precisa ser único)
     @Column(nullable = false, unique = true)
     private String nomeUsuario;
@@ -45,4 +47,7 @@ public class Usuario {
 
     public String getNivelInclinacao() { return nivelInclinacao; }
     public void setNivelInclinacao(String nivelInclinacao) { this.nivelInclinacao = nivelInclinacao; }
+
+    public String getFotoUrl() { return fotoUrl; }
+    public void setFotoUrl(String fotoUrl) { this.fotoUrl = fotoUrl; }
 }

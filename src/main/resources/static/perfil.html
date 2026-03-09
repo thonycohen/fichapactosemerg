@@ -168,31 +168,65 @@
     </div>
 
     <script>
-        // Pega quem está logado no momento
+        // Pega o nome do jogador salvo no navegador
         const usuarioLogado = localStorage.getItem('usuarioLogado');
 
         if (!usuarioLogado) {
-            alert("Você precisa estar logado para ver o perfil!");
+            alert("Você precisa estar logado!");
             window.location.href = "login.html";
         }
 
-        // Função para carregar os dados quando a página abre
+        let linkFotoPerfil = "";
+        const IMGBB_API_KEY = "41d58ca7fde25e2553eb8a3f84e3ea9c"; // Sua chave do ImgBB
+
+        // Função para carregar os dados atuais ao abrir a tela
         async function carregarPerfil() {
             try {
                 const resposta = await fetch(`/api/usuarios/${usuarioLogado}`);
                 if (resposta.ok) {
-                    const dadosUsuario = await resposta.json();
+                    const dados = await resposta.json();
+                    document.getElementById('nomeUsuario').value = dados.nomeUsuario;
+                    document.getElementById('email').value = dados.email;
 
-                    // Preenche as caixinhas na tela com os dados vindos do MySQL
-                    document.getElementById('perfilNome').value = dadosUsuario.nomeUsuario;
-                    document.getElementById('perfilEmail').value = dadosUsuario.email;
-
-                    if(dadosUsuario.nivelInclinacao) {
-                        document.getElementById('perfilInclinacao').value = dadosUsuario.nivelInclinacao;
+                    // MÁGICA 1: Se o usuário já tiver foto salva, mostra ela na bolinha!
+                    if (dados.fotoUrl) {
+                        linkFotoPerfil = dados.fotoUrl; // Salva na memória
+                        document.getElementById('imagemPreviewPerfil').style.backgroundImage = `url('${linkFotoPerfil}')`;
                     }
+                } else {
+                    alert("Erro ao carregar dados do perfil.");
                 }
             } catch (erro) {
-                console.error("Erro ao carregar o perfil:", erro);
+                console.error(erro);
+                alert("O servidor está offline.");
+            }
+        }
+
+        // Função de upload para o ImgBB
+        async function enviarFotoPerfilParaNuvem(event) {
+            const arquivo = event.target.files[0];
+            if (!arquivo) return;
+
+            document.getElementById('imagemPreviewPerfil').style.backgroundImage = "url('https://via.placeholder.com/120x120/1e1e1e/888888?text=UP...')";
+
+            const formData = new FormData();
+            formData.append("image", arquivo);
+
+            try {
+                const resposta = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                    method: "POST",
+                    body: formData
+                });
+                const dados = await resposta.json();
+                if (dados.success) {
+                    linkFotoPerfil = dados.data.url;
+                    document.getElementById('imagemPreviewPerfil').style.backgroundImage = `url('${linkFotoPerfil}')`;
+                } else {
+                    alert("Erro ao subir a foto.");
+                }
+            } catch (erro) {
+                console.error(erro);
+                alert("Falha na conexão com o servidor de imagens.");
             }
         }
 
@@ -200,12 +234,14 @@
         async function salvarPerfil(event) {
             event.preventDefault();
 
-            const novoNome = document.getElementById('perfilNome').value;
-            const novoEmail = document.getElementById('perfilEmail').value;
+            const novoNome = document.getElementById('nomeUsuario').value;
+            const novoEmail = document.getElementById('email').value;
 
+            // MÁGICA 2: Colocando a fotoUrl no pacote que vai pro Java
             const dadosAtualizados = {
                 nomeUsuario: novoNome,
-                email: novoEmail
+                email: novoEmail,
+                fotoUrl: linkFotoPerfil // <-- Agora o Java vai receber o link!
             };
 
             try {
@@ -215,23 +251,22 @@
                     body: JSON.stringify(dadosAtualizados)
                 });
 
-                const textoRetorno = await resposta.text();
-
                 if (resposta.ok) {
-                    alert(textoRetorno);
-                    // Se ele mudou de nome, precisamos atualizar a memória do navegador!
+                    alert("Perfil atualizado com sucesso!");
+                    // Se ele mudou de nome, precisamos atualizar a memória do navegador
                     localStorage.setItem('usuarioLogado', novoNome);
                     window.location.href = "fichas.html";
                 } else {
-                    alert(textoRetorno); // Mostra erro se o nome já existir
+                    const erro = await resposta.text();
+                    alert(erro);
                 }
             } catch (erro) {
-                console.error("Erro ao salvar:", erro);
+                console.error(erro);
                 alert("O servidor está offline.");
             }
         }
 
-        // Executa a busca assim que a página carrega
+        // Executa ao carregar a página
         carregarPerfil();
     </script>
 

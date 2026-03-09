@@ -69,6 +69,8 @@ public class UsuarioController {
 
             usuarioBanco.setNomeUsuario(dadosAtualizados.getNomeUsuario());
             usuarioBanco.setEmail(dadosAtualizados.getEmail());
+            // ADICIONE ESTA LINHA:
+            usuarioBanco.setFotoUrl(dadosAtualizados.getFotoUrl());
 
             usuarioRepository.save(usuarioBanco);
             return ResponseEntity.ok("Perfil atualizado com sucesso!");
