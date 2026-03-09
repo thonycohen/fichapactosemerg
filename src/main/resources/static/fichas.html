@@ -224,6 +224,29 @@
         }
     }
 
+    // Busca a foto do jogador para colocar no topo da tela
+    async function carregarFotoDoCabecalho() {
+        if (!usuarioLogado) return;
+
+        try {
+            const resposta = await fetch(`/api/usuarios/${usuarioLogado}`);
+            if (resposta.ok) {
+                const usuario = await resposta.json();
+
+                // Se o usuário tiver uma foto salva, altera o CSS da bolinha
+                if (usuario.fotoUrl) {
+                    const divPerfil = document.querySelector('.profile-pic-placeholder');
+                    divPerfil.style.backgroundImage = `url('${usuario.fotoUrl}')`;
+                    divPerfil.style.backgroundSize = 'cover';
+                    divPerfil.style.backgroundPosition = 'center';
+                    divPerfil.innerHTML = ''; // Apaga o ícone de bonequinho em SVG
+                }
+            }
+        } catch (erro) {
+            console.error("Erro ao carregar foto do cabeçalho:", erro);
+        }
+    }
+
     // Cria a carta visualmente no HTML com a foto do ImgBB!
     function renderizarCarta(agente) {
         const cardId = `agente-${agente.id}`;
@@ -291,9 +314,11 @@
         }
     }
 
+
+
     // Inicia tudo assim que a página abre
     carregarFichas();
-
+    carregarFotoDoCabecalho();
 </script>
 </body>
 </html>
