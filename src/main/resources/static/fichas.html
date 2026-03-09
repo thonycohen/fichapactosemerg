@@ -231,19 +231,19 @@
         // Verifica se o agente tem foto (fotoUrl). Se não tiver, usa o fundo cinza padrão.
         const imagemFundo = agente.fotoUrl ? agente.fotoUrl : "https://via.placeholder.com/300x300/2a2a2a/111111?text=+";
 
-        // Injeta o style="background-image: ..." dinamicamente na div
+        // Injeta a imagem de fundo diretamente no estilo da carta
         const novoAgenteHTML = `
-                <div class="ficha-card" id="${cardId}" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.9)), url('${imagemFundo}');">
-                    <div class="ficha-info">
-                        <div class="ficha-name-new">${agente.nome}</div>
-                        <div class="ficha-sub-new">Nível ${agente.nivel || 0} • ${agente.origem || 'Desconhecida'}</div>
-                    </div>
-                    <div class="ficha-hover-overlay">
-                        <a href="index.html?id=${agente.id}" class="btn btn-purple btn-overlay">Entrar na Ficha</a>
-                        <button class="btn btn-danger btn-overlay" onclick="excluirAgente(${agente.id}, event)">Excluir</button>
-                    </div>
+            <div class="ficha-card" id="${cardId}" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.9)), url('${imagemFundo}');">
+                <div class="ficha-info">
+                    <div class="ficha-name-new">${agente.nome}</div>
+                    <div class="ficha-sub-new">Nível ${agente.nivel || 0} • ${agente.origem || 'Desconhecida'}</div>
                 </div>
-            `;
+                <div class="ficha-hover-overlay">
+                    <a href="index.html?id=${agente.id}" class="btn btn-purple btn-overlay">Entrar na Ficha</a>
+                    <button class="btn btn-danger btn-overlay" onclick="excluirAgente(${agente.id}, event)">Excluir</button>
+                </div>
+            </div>
+        `;
         const btnAddCard = document.getElementById('btn-add-card');
         btnAddCard.insertAdjacentHTML('beforebegin', novoAgenteHTML);
     }
