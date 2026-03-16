@@ -176,7 +176,7 @@
         <div class="action-bar">
             <div class="agentes-count" id="contador-agentes">Personagens: 0/15</div>
             <div class="d-flex gap-3 align-items-center">
-                <input type="text" class="search-line" placeholder="Filtrar personagens...">
+                <input type="text" id="buscaAgentes" class="search-line" placeholder="Filtrar personagens...">
                 <button class="btn btn-purple" onclick="criarAgente()">Novo Agente</button>
             </div>
         </div>
@@ -314,7 +314,24 @@
         }
     }
 
+    // FILTRO DE PESQUISA DE AGENTES EM TEMPO REAL
+    document.getElementById('buscaAgentes').addEventListener('input', function(evento) {
+        const textoPesquisa = evento.target.value.toLowerCase(); // Pega o que foi digitado em minúsculo
+        const cartoes = document.querySelectorAll('.ficha-card:not(.novo-card)'); // Pega todas as fichas, menos o botão de "Criar Novo"
 
+        cartoes.forEach(cartao => {
+            // Lê o nome e a origem que estão escritos no cartão
+            const nomePersonagem = cartao.querySelector('.ficha-name-new').innerText.toLowerCase();
+            const detalhesPersonagem = cartao.querySelector('.ficha-sub-new').innerText.toLowerCase();
+
+            // Se o nome ou os detalhes tiverem as letras pesquisadas, mostra o cartão. Se não, esconde.
+            if (nomePersonagem.includes(textoPesquisa) || detalhesPersonagem.includes(textoPesquisa)) {
+                cartao.style.display = 'flex';
+            } else {
+                cartao.style.display = 'none';
+            }
+        });
+    });
 
     // Inicia tudo assim que a página abre
     carregarFichas();
