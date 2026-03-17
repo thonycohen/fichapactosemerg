@@ -16,9 +16,9 @@
             src: url('fonts/BloggerSans.otf') format('opentype');
         }
 
-        /* 2. TIPOGRAFIA E FUNDO BASE */
+        /* 2. TIPOGRAFIA E FUNDO BASE (Tons do fichas.html) */
         body {
-            background-color: #0d0d0d;
+            background-color: #000000;
             color: #e0e0e0;
             font-family: 'BloggerSansRegular', sans-serif;
             margin: 0; padding: 0;
@@ -26,109 +26,172 @@
             font-size: 1.1rem;
         }
 
-        h1, h2, h3, h4, h5, h6, .fonte-leopold, .btn-purple, .nav-link, .atributo-label {
+        h1, h2, h3, h4, h5, h6, .fonte-leopold, .btn-blue, .nav-link, .atributo-label {
             font-family: 'LeopoldMedium', sans-serif;
             letter-spacing: 1px;
         }
 
-        /* 3. HEADER DA FICHA */
+        /* 3. HEADER DA FICHA (Gradiente Azul Forte) */
         .pactos-header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 30px;
-            background-color: #161616;
-            border-bottom: 1px solid #2a2a2a;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            background: linear-gradient(90deg, #020617 0%, #1e3a8a 100%);
+            border-bottom: 1px solid #1b48ae;
+            box-shadow: 0 4px 25px rgba(29, 78, 216, 0.4);
             position: sticky; top: 0; z-index: 1000;
         }
 
-        .header-left { display: flex; align-items: center; gap: 20px; }
+        .header-left { display: flex; align-items: center; gap: 20px; z-index: 2; }
+        .header-right { display: flex; align-items: center; z-index: 2; }
 
         .menu-btn {
-            background: transparent; border: none; color: #a855f7;
-            font-size: 2rem; cursor: pointer; transition: 0.3s;
+            background: transparent; border: none; color: #0050af;
+            font-size: 2.2rem; cursor: pointer; transition: 0.3s;
         }
-        .menu-btn:hover { color: #d8b4fe; transform: scale(1.1); }
+        .menu-btn:hover { color: #ffffff; transform: scale(1.1); text-shadow: 0 0 10px rgba(255,255,255,0.5); }
 
-        .btn-home { color: #555; transition: 0.3s; text-decoration: none; display: flex; align-items: center;}
-        .btn-home:hover { color: #a855f7; transform: scale(1.1); }
+        .btn-home { color: #3b82f6; transition: 0.3s; text-decoration: none; display: flex; align-items: center;}
+        .btn-home:hover { color: #ffffff; transform: scale(1.1); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
         .btn-home svg { width: 30px; height: 30px; }
 
+        /* LOGO CENTRALIZADA E COM TRUQUE DE FUNDO TRANSPARENTE */
+        .pactos-logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
         .pactos-logo img {
-            height: 40px; width: auto;
-            filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4));
+            height: 45px; width: auto;
+            filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.6));
+            mix-blend-mode: lighten; /* Mágica para o JPG preto sumir */
         }
 
-        .btn-purple {
-            background-color: #a855f7; color: white; border: none; font-size: 1.2rem;
+        /* Bolinha de Perfil na Header */
+        .profile-pic-placeholder {
+            width: 45px; height: 45px; background-color: #0f172a;
+            border-radius: 50%; border: 2px solid #3b82f6;
+            cursor: pointer; transition: 0.3s;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            display: flex; justify-content: center; align-items: center;
+        }
+        .profile-pic-placeholder:hover { border-color: #60a5fa; transform: scale(1.1); box-shadow: 0 0 20px rgba(96, 165, 250, 0.8); }
+
+        /* Botões Azuis Escuros */
+        .btn-blue {
+            background-color: #2563eb; color: white; border: none; font-size: 1.2rem;
             padding: 8px 30px; transition: 0.3s; border-radius: 6px; text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(11, 28, 62, 0.5);
         }
-        .btn-purple:hover { background-color: #9333ea; color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(147, 51, 234, 0.4); }
+        .btn-blue:hover { background-color: #132750; color: white; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.6); }
 
-        .btn-outline-purple { color: #a855f7; border-color: #a855f7; background: transparent; }
-        .btn-outline-purple:hover { background-color: #a855f7; color: white; }
+        .btn-outline-blue { color: #3b82f6; border-color: #1e3a8a; background: transparent; }
+        .btn-outline-blue:hover { background-color: #1e3a8a; color: white; }
 
         /* 4. DESIGN DO MENU LATERAL (SIDEBAR) */
         .sidebar {
             height: 100vh; width: 0; position: fixed; top: 0; left: 0;
-            background-color: #121212; border-right: 1px solid #2a2a2a;
+            background: linear-gradient(180deg, #020617 0%, #1e3a8a 100%);
+            border-right: 1px solid #3b82f6;
+            box-shadow: 5px 0 25px rgba(29, 78, 216, 0.4);
             overflow-x: hidden; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1040; display: flex; flex-direction: column;
         }
-        .sidebar-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid #2a2a2a; }
-        .sidebar-header img { width: 140px; filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4)); }
+        .sidebar-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid rgba(59, 130, 246, 0.3); }
+        .sidebar-header img { width: 140px; filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.6)); mix-blend-mode: lighten; }
         .sidebar-menu { list-style: none; padding: 20px 0; margin: 0; flex-grow: 1; }
         .sidebar-menu li a {
             padding: 15px 30px; text-decoration: none; font-size: 1.2rem;
-            color: #b3b3b3; display: block; transition: 0.3s;
+            color: #dbeafe; display: block; transition: 0.3s;
             font-family: 'LeopoldMedium', sans-serif; text-transform: uppercase;
         }
-        .sidebar-menu li a:hover { color: #ffffff; background-color: #1a1a1a; border-left: 4px solid #a855f7; }
-        .sidebar-menu li a.inativo { color: #444; cursor: default; }
+        .sidebar-menu li a:hover { color: #ffffff; background-color: rgba(59, 130, 246, 0.2); border-left: 5px solid #60a5fa; text-shadow: 0 0 8px rgba(255,255,255,0.5); }
+        .sidebar-menu li a.inativo { color: #64748b; cursor: default; }
         .sidebar-menu li a.inativo:hover { background-color: transparent; border-left: none; }
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(3px);
+            background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(4px);
             z-index: 1030; display: none; opacity: 0; transition: opacity 0.4s;
         }
         .overlay.active { display: block; opacity: 1; }
 
-        /* 5. LAYOUT DA FICHA (Três Colunas do PDF) */
+        /* 5. LAYOUT DA FICHA */
         .ficha-container { max-width: 1400px; margin: 0 auto; padding: 40px 30px; }
 
-        .info-box { background-color: #161616; padding: 25px; border-radius: 12px; border: 1px solid #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.5); height: 100%; }
+        .info-box { background-color: #0f172a; padding: 25px; border-radius: 12px; border: 1px solid #1e3a8a; box-shadow: 0 10px 25px rgba(2, 6, 23, 0.8); height: 100%; }
 
-        /* UPLOAD DE AVATAR (MANTIDO INTACTO) */
+        /* UPLOAD DE AVATAR */
         .avatar-preview {
-            width: 140px; height: 140px; border-radius: 50%; border: 3px dashed #a855f7;
-            background-color: #121212; background-image: url('https://via.placeholder.com/140/121212/888888?text=FOTO');
+            width: 140px; height: 140px; border-radius: 50%; border: 3px dashed #1e3a8a;
+            background-color: #080b12; background-image: url('https://via.placeholder.com/140/080b12/888888?text=FOTO');
             background-size: cover; background-position: center; cursor: pointer; transition: 0.3s;
             display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
             margin: 0 auto 25px auto; box-shadow: 0 5px 15px rgba(0,0,0,0.6);
         }
-        .avatar-preview:hover { border-color: #d8b4fe; box-shadow: 0 0 20px rgba(168, 85, 247, 0.6); }
+        .avatar-preview:hover { border-color: #3b82f6; box-shadow: 0 0 20px rgba(30, 58, 138, 0.6); }
         .avatar-preview::after {
-            content: '📷 Trocar'; position: absolute; bottom: 0; background: rgba(0, 0, 0, 0.8);
+            content: '📷 Trocar'; position: absolute; bottom: 0; background: rgba(2, 6, 23, 0.85);
             color: white; width: 100%; text-align: center; font-size: 0.9rem; padding: 5px 0;
             opacity: 0; transition: 0.3s; font-family: 'BloggerSansRegular';
         }
         .avatar-preview:hover::after { opacity: 1; }
 
-        /* Campos de Input */
-        .form-control { background-color: #1a1a1a; border: 1px solid #333; color: white; transition: 0.3s; }
-        .form-control:focus { background-color: #222; border-color: #a855f7; color: white; box-shadow: 0 0 8px rgba(168, 85, 247, 0.3); }
-        label { color: #888; font-size: 1rem; margin-bottom: 5px; }
+        /* Campos de Input Genéricos */
+        .form-control { background-color: #080b12; border: 1px solid #1e3a8a; color: white; transition: 0.3s; }
+        .form-control:focus { background-color: #0f172a; border-color: #3b82f6; color: white; box-shadow: 0 0 8px rgba(30, 58, 138, 0.5); }
+        label { color: #94a3b8; font-size: 1rem; margin-bottom: 5px; }
+        .section-title { color: #ffffff; text-shadow: 0 0 10px rgba(30, 58, 138, 0.8); text-align: center; margin-bottom: 25px; font-size: 1.8rem; }
 
-        /* ATRIBUTOS (Grid 2x3 do PDF) */
-        .section-title { color: #ffffff; text-shadow: 0 0 10px rgba(168, 85, 247, 0.5); text-align: center; margin-bottom: 25px; font-size: 1.8rem; }
-        .atributos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .atributo-box { text-align: center; background: #1a1a1a; padding: 15px 10px; border-radius: 8px; border: 1px solid #333; transition: 0.3s; }
-        .atributo-box:hover { border-color: #a855f7; transform: translateY(-3px); background-color: #222;}
-        .atributo-label { color: #a855f7; font-size: 1.3rem; }
-        .atributo-input { width: 100%; text-align: center; font-size: 2.2rem; border: none; background: transparent; color: white; transition: 0.3s; font-family: 'LeopoldMedium';}
-        .atributo-input:focus { outline: none; text-shadow: 0 0 10px rgba(168, 85, 247, 0.8); }
+        /* =========================================================
+           A MÁGICA DA ESTRELA DE ATRIBUTOS (COMO ORDEM PARANORMAL)
+           ========================================================= */
+        .estrela-container {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 1 / 1; /* Mantém a div quadrada */
+            margin: 0 auto;
+            background-image: url('assets/atbpactos.png'); /* Sua imagem estrela */
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .ponta-atributo {
+            position: absolute;
+            width: 60px; height: 60px;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            /* background-color: rgba(255,0,0,0.3); Descomente isso para ver os quadrados e calibrar as posições! */
+        }
+
+        /* Posicionamentos das Pontas (Baseado na imagem da estrela de 6 pontas) */
+        .ponta-will { top: 3%; left: 50%; transform: translateX(-50%); } /* Topo */
+        .ponta-agi  { top: 25%; right: 5%; } /* Topo Direita */
+        .ponta-int  { bottom: 25%; right: 5%; } /* Fundo Direita */
+        .ponta-car  { bottom: 3%; left: 50%; transform: translateX(-50%); } /* Fundo */
+        .ponta-con  { bottom: 25%; left: 5%; } /* Fundo Esquerda */
+        .ponta-rig  { top: 25%; left: 5%; } /* Topo Esquerda */
+
+        /* O Input Invisível do Meio (Sem Nome) */
+        .ponta-meio { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+        .estrela-label { color: #60a5fa; font-size: 1rem; margin-bottom: -5px; text-shadow: 1px 1px 3px black; font-family: 'LeopoldMedium'; }
+
+        .estrela-input {
+            width: 100%; text-align: center; font-size: 2.2rem;
+            border: none; background: transparent; color: white;
+            transition: 0.3s; font-family: 'LeopoldMedium';
+            text-shadow: 2px 2px 5px black;
+        }
+        .estrela-input:focus { outline: none; text-shadow: 0 0 10px rgba(96, 165, 250, 0.9); }
+
+        /* Modificador especial para o input central ser maior */
+        .input-meio { font-size: 3rem; color: #93c5fd; }
 
         /* BARRAS DE STATUS */
-        .bar-container { position: relative; height: 35px; background-color: #1a1a1a; border-radius: 6px; margin-bottom: 10px; overflow: hidden; border: 1px solid #333; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); }
+        .bar-container { position: relative; height: 35px; background-color: #080b12; border-radius: 6px; margin-bottom: 10px; overflow: hidden; border: 1px solid #1e3a8a; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); }
         .bar-fill { height: 100%; transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .bar-text { position: absolute; width: 100%; text-align: center; font-size: 1.2rem; line-height: 35px; text-shadow: 1px 1px 3px rgba(0,0,0,0.9); pointer-events: none; font-family: 'LeopoldMedium'; letter-spacing: 1px;}
 
@@ -136,56 +199,55 @@
         .bg-sanidade { background: linear-gradient(90deg, #001f5c, #0d6efd); }
         .bg-energia { background: linear-gradient(90deg, #8a6700, #ffc107); color: black; text-shadow: none; }
 
-        .status-inputs input { text-align: center; font-family: 'LeopoldMedium'; font-size: 1.3rem; background-color: #1a1a1a; color: white; border: 1px solid #333; border-radius: 4px; padding: 5px; width: 70px;}
-        .status-inputs input:focus { border-color: #a855f7; outline: none; }
+        .status-inputs input { text-align: center; font-family: 'LeopoldMedium'; font-size: 1.3rem; background-color: #080b12; color: white; border: 1px solid #1e3a8a; border-radius: 4px; padding: 5px; width: 70px;}
+        .status-inputs input:focus { border-color: #3b82f6; outline: none; }
 
-        /* ABAS E TABELAS (INVIOLÁVEIS, APENAS CORES ATUALIZADAS) */
-        .nav-tabs { border-bottom: 1px solid #333; margin-top: 40px; }
-        .nav-tabs .nav-link { color: #888; border: none; font-size: 1.3rem; padding: 15px 25px; transition: 0.3s; }
-        .nav-tabs .nav-link:hover { color: #ccc; }
-        .nav-tabs .nav-link.active { background-color: transparent; color: #a855f7; border-bottom: 3px solid #a855f7; text-shadow: 0 0 8px rgba(168, 85, 247, 0.4);}
+        /* ABAS E TABELAS */
+        .nav-tabs { border-bottom: 1px solid #1e3a8a; margin-top: 40px; }
+        .nav-tabs .nav-link { color: #64748b; border: none; font-size: 1.3rem; padding: 15px 25px; transition: 0.3s; }
+        .nav-tabs .nav-link:hover { color: #cbd5e1; }
+        .nav-tabs .nav-link.active { background-color: transparent; color: #60a5fa; border-bottom: 3px solid #3b82f6; text-shadow: 0 0 8px rgba(30, 58, 138, 0.6);}
 
-        .tab-content { background-color: #161616; border: 1px solid #2a2a2a; border-top: none; padding: 30px; border-radius: 0 0 12px 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);}
-        .search-line { border: none; border-bottom: 1px solid #444; background: transparent; color: white; border-radius: 0; padding: 8px 0; width: 100%; transition: 0.3s; font-size: 1.1rem; }
-        .search-line:focus { outline: none; border-color: #a855f7; }
+        .tab-content { background-color: #0f172a; border: 1px solid #1e3a8a; border-top: none; padding: 30px; border-radius: 0 0 12px 12px; box-shadow: 0 10px 25px rgba(2, 6, 23, 0.8);}
+        .search-line { border: none; border-bottom: 2px solid #032660; background: transparent; color: white; border-radius: 0; padding: 8px 0; width: 100%; transition: 0.3s; font-size: 1.1rem; }
+        .search-line:focus { outline: none; border-color: #3b82f6; }
 
-        .item-list-box { background-color: #1a1a1a; border-radius: 6px; margin-bottom: 10px; border: 1px solid #333; }
+        .item-list-box { background-color: #080b12; border-radius: 6px; margin-bottom: 10px; border: 1px solid #1e3a8a; }
         .item-header { padding: 15px; cursor: pointer; display: flex; align-items: center; color: #e0e0e0; transition: background 0.2s; }
-        .item-header:hover { background-color: #222; }
-        .item-body { padding: 15px; border-top: 1px solid #333; background-color: #121212; display: none; }
+        .item-header:hover { background-color: #0f172a; }
+        .item-body { padding: 15px; border-top: 1px solid #1e3a8a; background-color: #020617; display: none; }
         .item-title-input { background: transparent; border: none; color: white; font-family: 'LeopoldMedium'; font-size: 1.3rem; width: 100%; outline: none; }
-        .item-title-input:focus { border-bottom: 1px solid #a855f7; }
-        .chevron { transition: transform 0.3s ease; margin-right: 15px; color: #a855f7; font-family: 'LeopoldMedium'; }
+        .item-title-input:focus { border-bottom: 1px solid #3b82f6; }
+        .chevron { transition: transform 0.3s ease; margin-right: 15px; color: #60a5fa; font-family: 'LeopoldMedium'; }
 
-        .pericias-header { display: flex; font-family: 'LeopoldMedium'; font-size: 1.2rem; border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 15px; color: #a855f7; }
-        .pericia-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #222; transition: 0.2s; }
-        .pericia-row:hover { background-color: #1a1a1a; }
+        .pericias-header { display: flex; font-family: 'LeopoldMedium'; font-size: 1.2rem; border-bottom: 2px solid #1e3a8a; padding-bottom: 15px; margin-bottom: 15px; color: #60a5fa; }
+        .pericia-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #1e3a8a; transition: 0.2s; }
+        .pericia-row:hover { background-color: #080b12; }
         .pericia-nome { flex: 3; color: #e0e0e0; font-family: 'LeopoldMedium'; font-size: 1.2rem; }
-        .pericia-atb { flex: 2; color: #666; text-align: center; font-size: 1rem; }
+        .pericia-atb { flex: 2; color: #94a3b8; text-align: center; font-size: 1rem; }
         .pericia-treino { flex: 1.5; display: flex; justify-content: center; }
-        .pericia-treino select { background-color: #222; color: white; border: 1px solid #444; border-radius: 4px; padding: 4px 8px; outline: none; cursor: pointer; }
-        .pericia-treino select:focus { border-color: #a855f7; }
+        .pericia-treino select { background-color: #0f172a; color: white; border: 1px solid #1e3a8a; border-radius: 4px; padding: 4px 8px; outline: none; cursor: pointer; }
+        .pericia-treino select:focus { border-color: #3b82f6; }
         .pericia-bonus { flex: 1.5; display: flex; justify-content: center; }
-        .pericia-bonus input { width: 45px; background: transparent; border: none; border-bottom: 1px solid #555; color: white; text-align: center; outline: none; font-family: 'LeopoldMedium'; font-size: 1.2rem;}
-        .pericia-bonus input:focus { border-bottom-color: #a855f7; }
-        .pericia-total { flex: 1.5; text-align: center; font-family: 'LeopoldMedium'; font-size: 1.4rem; color: #a855f7; }
+        .pericia-bonus input { width: 45px; background: transparent; border: none; border-bottom: 1px solid #1e3a8a; color: white; text-align: center; outline: none; font-family: 'LeopoldMedium'; font-size: 1.2rem;}
+        .pericia-bonus input:focus { border-bottom-color: #3b82f6; }
+        .pericia-total { flex: 1.5; text-align: center; font-family: 'LeopoldMedium'; font-size: 1.4rem; color: #60a5fa; }
     </style>
 </head>
 <body>
 
 <div id="pactosSidebar" class="sidebar">
     <div class="sidebar-header">
-        <img src="assets/BRAND (2).svg" alt="PACTOS RPG">
+        <img src="assets/PACTOS.jpg" alt="PACTOS RPG">
     </div>
     <ul class="sidebar-menu">
         <li><a href="home.html">INÍCIO</a></li>
         <li><a href="perfil.html">MEU PERFIL</a></li>
         <li><a href="fichas.html">AGENTES</a></li>
         <li><a href="#" class="inativo">CAMPANHAS (EM BREVE)</a></li>
-        <li><a href="configuracoes.html">CONFIGURAÇÕES</a></li>
     </ul>
-    <div style="padding: 20px; border-top: 1px solid #2a2a2a; margin-top: auto;">
-        <button onclick="fazerLogout()" class="btn btn-outline-danger w-100" style="font-family: 'LeopoldMedium'; font-size: 1.2rem;">SAIR</button>
+    <div style="padding: 20px; border-top: 1px solid rgba(59, 130, 246, 0.3); margin-top: auto;">
+        <button onclick="fazerLogout()" class="btn btn-outline-danger w-100" style="font-family: 'LeopoldMedium'; font-size: 1.2rem; border-width: 2px;">SAIR</button>
     </div>
 </div>
 <div id="menuOverlay" class="overlay" onclick="toggleMenu()"></div>
@@ -198,17 +260,18 @@
                 <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path>
             </svg>
         </a>
-        <div class="pactos-logo">
-            <img src="assets/BRAND (2).svg" alt="PACTOS RPG">
-        </div>
     </div>
+
+    <div class="pactos-logo">
+        <img src="assets/PACTOS.jpg" alt="PACTOS RPG">
+    </div>
+
     <div class="header-right">
-        <button onclick="salvarFicha()" class="btn btn-purple">SALVAR FICHA</button>
+        <button onclick="salvarFicha()" class="btn btn-blue">SALVAR FICHA</button>
     </div>
 </header>
 
 <div class="ficha-container">
-
     <div class="row g-4">
 
         <div class="col-lg-4">
@@ -244,16 +307,40 @@
         </div>
 
         <div class="col-lg-4">
-            <div class="info-box d-flex flex-column justify-content-center">
+            <div class="info-box d-flex flex-column justify-content-center align-items-center">
                 <h2 class="section-title fonte-leopold">ATRIBUTOS</h2>
-                <div class="atributos-grid">
-                    <div class="atributo-box"><div class="atributo-label">WILL</div><input type="number" id="attr-will" class="atributo-input" value="0"></div>
-                    <div class="atributo-box"><div class="atributo-label">RIG</div><input type="number" id="attr-rig" class="atributo-input" value="0"></div>
-                    <div class="atributo-box"><div class="atributo-label">AGI</div><input type="number" id="attr-agi" class="atributo-input" value="0"></div>
-                    <div class="atributo-box"><div class="atributo-label">CON</div><input type="number" id="attr-con" class="atributo-input" value="0"></div>
-                    <div class="atributo-box"><div class="atributo-label">INT</div><input type="number" id="attr-int" class="atributo-input" value="0"></div>
-                    <div class="atributo-box"><div class="atributo-label">CAR</div><input type="number" id="attr-car" class="atributo-input" value="0"></div>
+
+                <div class="estrela-container">
+                    <div class="ponta-atributo ponta-will">
+                        <div class="estrela-label">WILL</div>
+                        <input type="number" id="attr-will" class="estrela-input" value="0">
+                    </div>
+                    <div class="ponta-atributo ponta-agi">
+                        <div class="estrela-label">AGI</div>
+                        <input type="number" id="attr-agi" class="estrela-input" value="0">
+                    </div>
+                    <div class="ponta-atributo ponta-int">
+                        <div class="estrela-label">INT</div>
+                        <input type="number" id="attr-int" class="estrela-input" value="0">
+                    </div>
+                    <div class="ponta-atributo ponta-car">
+                        <div class="estrela-label">CAR</div>
+                        <input type="number" id="attr-car" class="estrela-input" value="0">
+                    </div>
+                    <div class="ponta-atributo ponta-con">
+                        <div class="estrela-label">CON</div>
+                        <input type="number" id="attr-con" class="estrela-input" value="0">
+                    </div>
+                    <div class="ponta-atributo ponta-rig">
+                        <div class="estrela-label">RIG</div>
+                        <input type="number" id="attr-rig" class="estrela-input" value="0">
+                    </div>
+
+                    <div class="ponta-atributo ponta-meio">
+                        <input type="number" id="attr-meio" class="estrela-input input-meio" value="0">
+                    </div>
                 </div>
+
             </div>
         </div>
 
@@ -290,11 +377,13 @@
             </div>
         </div>
 
-    </div> <ul class="nav nav-tabs fonte-leopold" id="fichaTabs" role="tablist">
-    <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#pericias" type="button" role="tab">PERÍCIAS</button></li>
-    <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#pactos" type="button" role="tab">PACTOS</button></li>
-    <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#inventario" type="button" role="tab">INVENTÁRIO</button></li>
-</ul>
+    </div>
+
+    <ul class="nav nav-tabs fonte-leopold" id="fichaTabs" role="tablist">
+        <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#pericias" type="button" role="tab">PERÍCIAS</button></li>
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#pactos" type="button" role="tab">PACTOS</button></li>
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#inventario" type="button" role="tab">INVENTÁRIO</button></li>
+    </ul>
 
     <div class="tab-content" id="fichaTabsContent">
         <div class="tab-pane fade show active" id="pericias" role="tabpanel">
@@ -310,14 +399,14 @@
         <div class="tab-pane fade" id="pactos" role="tabpanel">
             <div class="d-flex justify-content-between align-items-end mb-4">
                 <div class="w-50"><input type="text" id="buscaPactos" class="search-line" placeholder="Filtrar pactos..."></div>
-                <div class="d-flex flex-column align-items-end"><button class="btn btn-outline-purple btn-sm py-2 px-3 fonte-leopold" onclick="adicionarItem('pactos')">NOVO PACTO</button></div>
+                <div class="d-flex flex-column align-items-end"><button class="btn btn-outline-blue btn-sm py-2 px-3 fonte-leopold" onclick="adicionarItem('pactos')">NOVO PACTO</button></div>
             </div>
             <div id="lista-pactos"></div>
         </div>
         <div class="tab-pane fade" id="inventario" role="tabpanel">
             <div class="d-flex justify-content-between align-items-end mb-4">
                 <div class="w-50"><input type="text" id="buscaInventario" class="search-line" placeholder="Filtrar itens..."></div>
-                <div class="d-flex flex-column align-items-end"><button class="btn btn-outline-purple btn-sm py-2 px-3 fonte-leopold" onclick="adicionarItem('inventario')">NOVO ITEM</button></div>
+                <div class="d-flex flex-column align-items-end"><button class="btn btn-outline-blue btn-sm py-2 px-3 fonte-leopold" onclick="adicionarItem('inventario')">NOVO ITEM</button></div>
             </div>
             <div id="lista-inventario"></div>
         </div>
@@ -327,7 +416,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // --- LÓGICA DO MENU HAMBÚRGUER ---
     function toggleMenu() {
         const sidebar = document.getElementById("pactosSidebar");
         const overlay = document.getElementById("menuOverlay");
@@ -349,7 +437,6 @@
         }
     }
 
-    // --- LÓGICA DA FICHA (MANTIDA INTACTA) ---
     function adicionarItem(abaId) {
         const container = document.getElementById(`lista-${abaId}`);
         const itemId = Date.now();
@@ -538,10 +625,9 @@
 
                 preencherSeExistir('attr-will', ficha.will); preencherSeExistir('attr-agi', ficha.agilidade);
                 preencherSeExistir('attr-int', ficha.inteligencia); preencherSeExistir('attr-rig', ficha.forca);
-                preencherSeExistir('attr-car', node.presenca); preencherSeExistir('attr-con', ficha.vigor); // CORRIGIDO ABAIXO
+                preencherSeExistir('attr-car', ficha.presenca); preencherSeExistir('attr-con', ficha.vigor);
 
-                // Correção direta dos IDs de atributos
-                preencherSeExistir('attr-car', ficha.presenca);
+                // O input do meio foi chamado de attr-meio temporariamente. Se o Java esperar salvar ele, precisaremos ajustar.
             } else { alert("Ficha não encontrada."); }
         } catch (erro) { console.error("Erro:", erro); }
     }
@@ -552,7 +638,7 @@
     async function enviarParaNuvem(event) {
         const arquivo = event.target.files[0];
         if (!arquivo) return;
-        document.getElementById('imagemPreview').style.backgroundImage = "url('https://via.placeholder.com/140/121212/888888?text=UP...')";
+        document.getElementById('imagemPreview').style.backgroundImage = "url('https://via.placeholder.com/140/080b12/888888?text=UP...')";
         const formData = new FormData(); formData.append("image", arquivo);
         try {
             const resposta = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body: formData });
