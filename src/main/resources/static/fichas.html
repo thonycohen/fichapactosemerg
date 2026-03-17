@@ -18,25 +18,26 @@
 
         /* 2. TIPOGRAFIA E FUNDO BASE */
         body {
-            background-color: #0d0d0d; /* Fundo bem escuro, padrão PACTOS */
+            background-color: #0d0d0d;
             color: #e0e0e0;
             font-family: 'BloggerSansRegular', sans-serif;
             margin: 0; padding: 0;
             overflow-x: hidden;
         }
 
-        h1, h2, h3, h4, h5, h6, .fonte-leopold, .btn-purple, .ficha-name-new, .agentes-count {
+        h1, h2, h3, h4, h5, h6, .fonte-leopold, .btn-blue, .ficha-name-new, .agentes-count {
             font-family: 'LeopoldMedium', sans-serif;
             letter-spacing: 1px;
         }
 
-        /* 3. HEADER PRINCIPAL */
+        /* 3. HEADER PRINCIPAL COM GRADIENTE AZUL ESCURO */
         .pactos-header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 30px;
-            background-color: #161616;
-            border-bottom: 1px solid #2a2a2a;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            /* Gradiente escuro puxando pro azul marinho */
+            background: linear-gradient(90deg, #050505 0%, #0f1c2e 100%);
+            border-bottom: 1px solid #1a2b42;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
             position: sticky; top: 0; z-index: 1000;
         }
 
@@ -44,42 +45,43 @@
 
         /* O Botão Hambúrguer */
         .menu-btn {
-            background: transparent; border: none; color: #a855f7;
+            background: transparent; border: none; color: #2563eb;
             font-size: 2rem; cursor: pointer; transition: 0.3s;
         }
-        .menu-btn:hover { color: #d8b4fe; transform: scale(1.1); }
+        .menu-btn:hover { color: #60a5fa; transform: scale(1.1); }
 
         .pactos-logo img {
             height: 45px; width: auto;
-            filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4));
+            filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.4)); /* Brilho azul na logo */
         }
 
         /* Bolinha de Perfil na Header */
         .profile-pic-placeholder {
-            width: 45px; height: 45px; background-color: #222;
-            border-radius: 50%; border: 2px solid #444;
+            width: 45px; height: 45px; background-color: #0f172a;
+            border-radius: 50%; border: 2px solid #1e293b;
             cursor: pointer; transition: 0.3s;
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
             display: flex; justify-content: center; align-items: center;
         }
-        .profile-pic-placeholder:hover { border-color: #a855f7; transform: scale(1.1); }
+        .profile-pic-placeholder:hover { border-color: #2563eb; transform: scale(1.1); box-shadow: 0 0 15px rgba(37, 99, 235, 0.5); }
 
-        /* 4. DESIGN DO MENU LATERAL (SIDEBAR) */
+        /* 4. DESIGN DO MENU LATERAL (SIDEBAR COM GRADIENTE) */
         .sidebar {
             height: 100vh; width: 0; position: fixed; top: 0; left: 0;
-            background-color: #121212; border-right: 1px solid #2a2a2a;
+            background: linear-gradient(180deg, #050505 0%, #0f1c2e 100%);
+            border-right: 1px solid #1a2b42;
             overflow-x: hidden; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1040; display: flex; flex-direction: column;
         }
-        .sidebar-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid #2a2a2a; }
-        .sidebar-header img { width: 140px; filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4)); }
+        .sidebar-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid #1a2b42; }
+        .sidebar-header img { width: 140px; filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.4)); }
         .sidebar-menu { list-style: none; padding: 20px 0; margin: 0; flex-grow: 1; }
         .sidebar-menu li a {
             padding: 15px 30px; text-decoration: none; font-size: 1.2rem;
             color: #b3b3b3; display: block; transition: 0.3s;
             font-family: 'LeopoldMedium', sans-serif; text-transform: uppercase;
         }
-        .sidebar-menu li a:hover { color: #ffffff; background-color: #1a1a1a; border-left: 4px solid #a855f7; }
+        .sidebar-menu li a:hover { color: #ffffff; background-color: rgba(37, 99, 235, 0.1); border-left: 4px solid #2563eb; }
         .sidebar-menu li a.inativo { color: #444; cursor: default; }
         .sidebar-menu li a.inativo:hover { background-color: transparent; border-left: none; }
         .overlay {
@@ -96,33 +98,33 @@
         .agentes-count { font-size: 1.5rem; color: #ccc; }
 
         .search-line {
-            border: none; border-bottom: 1px solid #444; background: transparent; color: white;
+            border: none; border-bottom: 1px solid #1e293b; background: transparent; color: white;
             border-radius: 0; padding: 8px 10px; width: 300px; outline: none; font-size: 1.1rem;
             transition: 0.3s;
         }
-        .search-line:focus { border-color: #a855f7; box-shadow: 0 2px 10px rgba(168,85,247,0.2); }
+        .search-line:focus { border-color: #2563eb; box-shadow: 0 2px 10px rgba(37,99,235,0.2); }
 
-        .btn-purple {
-            background-color: #a855f7; color: white; border: none; font-size: 1.2rem;
+        .btn-blue {
+            background-color: #2563eb; color: white; border: none; font-size: 1.2rem;
             padding: 10px 25px; transition: 0.3s; border-radius: 6px; text-transform: uppercase;
         }
-        .btn-purple:hover { background-color: #9333ea; color: white; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(147, 51, 234, 0.4); }
+        .btn-blue:hover { background-color: #1d4ed8; color: white; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(29, 78, 216, 0.4); }
 
         .fichas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
 
         /* Design do Cartão de Ficha */
         .ficha-card {
-            background-color: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px;
+            background-color: #0f172a; border: 1px solid #1e293b; border-radius: 12px;
             overflow: hidden; transition: 0.4s; position: relative;
             height: 320px; background-size: cover; background-position: center;
             display: flex; align-items: flex-end; padding: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.6);
         }
-        .ficha-card:hover { transform: translateY(-8px); border-color: #a855f7; box-shadow: 0 15px 30px rgba(168,85,247,0.4); }
+        .ficha-card:hover { transform: translateY(-8px); border-color: #2563eb; box-shadow: 0 15px 30px rgba(37,99,235,0.4); }
 
         .ficha-info { transition: opacity 0.3s; width: 100%; pointer-events: none; z-index: 2; }
         .ficha-name-new { font-size: 2rem; color: white; margin-bottom: 4px; text-shadow: 2px 2px 5px rgba(0,0,0,0.9); }
-        .ficha-sub-new { font-size: 1.1rem; color: #d8b4fe; text-shadow: 1px 1px 3px rgba(0,0,0,0.9); }
+        .ficha-sub-new { font-size: 1.1rem; color: #93c5fd; text-shadow: 1px 1px 3px rgba(0,0,0,0.9); }
 
         /* Overlay Escuro com os botões (Aparece no Hover) */
         .ficha-hover-overlay {
@@ -138,10 +140,10 @@
 
         /* Cartão de Criar Novo */
         .ficha-card.novo-card {
-            background-image: none !important; background-color: #121212; border: 2px dashed #444;
-            cursor: pointer; color: #666; flex-direction: column; justify-content: center; align-items: center; gap: 15px;
+            background-image: none !important; background-color: #0f172a; border: 2px dashed #1e293b;
+            cursor: pointer; color: #64748b; flex-direction: column; justify-content: center; align-items: center; gap: 15px;
         }
-        .ficha-card.novo-card:hover { border-color: #a855f7; color: #a855f7; background-color: #161616; }
+        .ficha-card.novo-card:hover { border-color: #2563eb; color: #2563eb; background-color: #111827; }
         .ficha-card.novo-card svg { width: 60px; height: 60px; transition: 0.3s; }
         .ficha-card.novo-card:hover svg { transform: scale(1.1); }
         .ficha-card.novo-card div { font-family: 'LeopoldMedium'; font-size: 1.4rem; text-transform: uppercase; }
@@ -160,7 +162,7 @@
         <li><a href="#" class="inativo">CAMPANHAS (EM BREVE)</a></li>
         <li><a href="configuracoes.html">CONFIGURAÇÕES</a></li>
     </ul>
-    <div style="padding: 20px; border-top: 1px solid #2a2a2a; margin-top: auto;">
+    <div style="padding: 20px; border-top: 1px solid #1a2b42; margin-top: auto;">
         <button onclick="fazerLogout()" class="btn btn-outline-danger w-100" style="font-family: 'LeopoldMedium'; font-size: 1.2rem;">SAIR</button>
     </div>
 </div>
@@ -188,7 +190,7 @@
         <div class="agentes-count" id="contador-agentes">AGENTES: 0/15</div>
         <div class="d-flex gap-4 align-items-center">
             <input type="text" id="buscaAgentes" class="search-line" placeholder="Filtrar agentes pelo nome ou origem...">
-            <button class="btn btn-purple" onclick="criarAgente()">NOVO AGENTE</button>
+            <button class="btn btn-blue" onclick="criarAgente()">NOVO AGENTE</button>
         </div>
     </div>
 
@@ -261,7 +263,7 @@
     function renderizarCarta(agente) {
         const cardId = `agente-${agente.id}`;
         // Se não tiver foto, usa um fundo dark padrão
-        const imagemFundo = agente.fotoUrl ? agente.fotoUrl : "https://via.placeholder.com/300x400/1a1a1a/000000?text=+";
+        const imagemFundo = agente.fotoUrl ? agente.fotoUrl : "https://via.placeholder.com/300x400/0f172a/000000?text=+";
 
         const novoAgenteHTML = `
             <div class="ficha-card" id="${cardId}" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.95)), url('${imagemFundo}');">
@@ -270,7 +272,7 @@
                     <div class="ficha-sub-new">Nível ${agente.nivel || 0} • ${agente.origem || 'Desconhecida'}</div>
                 </div>
                 <div class="ficha-hover-overlay">
-                    <a href="index.html?id=${agente.id}" class="btn btn-purple btn-overlay text-decoration-none text-center py-2">ENTRAR NA FICHA</a>
+                    <a href="index.html?id=${agente.id}" class="btn btn-blue btn-overlay text-decoration-none text-center py-2">ENTRAR NA FICHA</a>
                     <button class="btn btn-danger btn-overlay py-2" style="font-family: 'LeopoldMedium';" onclick="excluirAgente(${agente.id}, event)">EXCLUIR</button>
                 </div>
             </div>
