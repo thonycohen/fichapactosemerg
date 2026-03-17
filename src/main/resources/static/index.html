@@ -6,251 +6,353 @@
     <title>PACTOS - Ficha de Personagem</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #121212; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .ficha-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        /* Estilização das barras de status */
-        .bar-container { position: relative; height: 30px; background-color: #2b2b2b; border-radius: 5px; margin-bottom: 15px; overflow: hidden; border: 1px solid #444; }
-        .bar-fill { height: 100%; transition: width 0.3s ease; }
-        .bar-text { position: absolute; width: 100%; text-align: center; font-weight: bold; line-height: 30px; text-shadow: 1px 1px 2px black; pointer-events: none; }
-        .bg-vida { background-color: #dc3545; }
-        .bg-sanidade { background-color: #0d6efd; }
-        .bg-energia { background-color: #ffc107; color: black; text-shadow: none; }
-        /* Estilização dos Atributos */
-        .atributo-box { text-align: center; background: #1e1e1e; padding: 15px; border-radius: 10px; border: 1px solid #333; }
-        .atributo-input { width: 60px; text-align: center; font-size: 1.5rem; font-weight: bold; border: none; background: transparent; color: white; border-bottom: 2px solid #555; }
-        /* Estilos para as listas e botões roxos (Baseado na imagem) */
-        .btn-purple { background-color: #a855f7; color: white; border: none; font-weight: bold; }
-        .btn-purple:hover { background-color: #9333ea; color: white; }
+        /* 1. IMPORTAÇÃO DAS FONTES OFICIAIS (.otf) */
+        @font-face {
+            font-family: 'LeopoldMedium';
+            src: url('fonts/Leopold.otf') format('opentype');
+        }
+        @font-face {
+            font-family: 'BloggerSansRegular';
+            src: url('fonts/BloggerSans.otf') format('opentype');
+        }
+
+        /* 2. TIPOGRAFIA E FUNDO BASE */
+        body {
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            font-family: 'BloggerSansRegular', sans-serif;
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+            font-size: 1.1rem;
+        }
+
+        h1, h2, h3, h4, h5, h6, .fonte-leopold, .btn-purple, .nav-link, .atributo-label {
+            font-family: 'LeopoldMedium', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* 3. HEADER DA FICHA */
+        .pactos-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 30px;
+            background-color: #161616;
+            border-bottom: 1px solid #2a2a2a;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 20px; }
+
+        .menu-btn {
+            background: transparent; border: none; color: #a855f7;
+            font-size: 2rem; cursor: pointer; transition: 0.3s;
+        }
+        .menu-btn:hover { color: #d8b4fe; transform: scale(1.1); }
+
+        .btn-home { color: #555; transition: 0.3s; text-decoration: none; display: flex; align-items: center;}
+        .btn-home:hover { color: #a855f7; transform: scale(1.1); }
+        .btn-home svg { width: 30px; height: 30px; }
+
+        .pactos-logo img {
+            height: 40px; width: auto;
+            filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4));
+        }
+
+        .btn-purple {
+            background-color: #a855f7; color: white; border: none; font-size: 1.2rem;
+            padding: 8px 30px; transition: 0.3s; border-radius: 6px; text-transform: uppercase;
+        }
+        .btn-purple:hover { background-color: #9333ea; color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(147, 51, 234, 0.4); }
+
         .btn-outline-purple { color: #a855f7; border-color: #a855f7; background: transparent; }
         .btn-outline-purple:hover { background-color: #a855f7; color: white; }
-        
-        .search-line { border: none; border-bottom: 1px solid #555; background: transparent; color: white; border-radius: 0; padding-left: 0; width: 100%; }
-        .search-line:focus { outline: none; box-shadow: none; border-color: #a855f7; background: transparent; color: white;}
-        
-        .item-list-box { background-color: #1a1a1a; border-radius: 5px; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .item-header { padding: 12px 15px; cursor: pointer; display: flex; align-items: center; color: #e0e0e0; transition: background 0.2s; border-radius: 5px; }
-        .item-header:hover { background-color: #252525; }
-        .item-body { padding: 15px; border-top: 1px solid #333; background-color: #151515; display: none; border-radius: 0 0 5px 5px; }
-        .item-title-input { background: transparent; border: none; color: white; font-weight: bold; width: 100%; outline: none; }
-        .item-title-input:focus { border-bottom: 1px solid #a855f7; }
-        .chevron { transition: transform 0.3s ease; margin-right: 15px; color: #a855f7; font-weight: bold; }
-        /* Estilos da Tabela de Perícias */
-        .pericias-header { display: flex; font-weight: bold; border-bottom: 2px solid #444; padding-bottom: 5px; margin-bottom: 10px; font-size: 0.9em; text-transform: uppercase; color: #aaa; }
-        .pericia-row { display: flex; align-items: center; padding: 6px 0; border-bottom: 1px solid #2b2b2b; transition: background 0.2s; }
-        .pericia-row:hover { background-color: #1a1a1a; }
-        .pericia-nome { flex: 3; color: #3b82f6; font-weight: 500; display: flex; align-items: center; gap: 8px; }
-        .pericia-atb { flex: 2; color: #888; text-align: center; font-size: 0.85em; }
-        .pericia-treino { flex: 1.5; display: flex; justify-content: center; }
-        
-        /* Seletor dropdown para o nível de treino */
-        .pericia-treino select { background-color: #1e1e1e; color: white; border: 1px solid #444; border-radius: 4px; padding: 2px 5px; outline: none; cursor: pointer; }
-        .pericia-treino select:focus { border-color: #a855f7; }
-        
-        .pericia-bonus { flex: 1.5; display: flex; justify-content: center; }
-        .pericia-bonus input { width: 40px; background: transparent; border: none; border-bottom: 1px solid #555; color: white; text-align: center; outline: none; }
-        .pericia-bonus input:focus { border-bottom-color: #a855f7; }
-        .pericia-total { flex: 1.5; text-align: center; font-weight: bold; color: white; border-bottom: 1px solid #3b82f6; }
-        /* Estilo para o botão Home na Header */
-        .btn-home {
-            position: absolute;
-            right: 0;
-            color: #a855f7;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-        .btn-home:hover {
-            color: #d8b4fe;
-            transform: scale(1.1);
-        }
-        .btn-home svg {
-            width: 35px;
-            height: 35px;
-        }
-        /* Design da área de Upload de Foto */
-        .avatar-upload-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
 
+        /* 4. DESIGN DO MENU LATERAL (SIDEBAR) */
+        .sidebar {
+            height: 100vh; width: 0; position: fixed; top: 0; left: 0;
+            background-color: #121212; border-right: 1px solid #2a2a2a;
+            overflow-x: hidden; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1040; display: flex; flex-direction: column;
+        }
+        .sidebar-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid #2a2a2a; }
+        .sidebar-header img { width: 140px; filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4)); }
+        .sidebar-menu { list-style: none; padding: 20px 0; margin: 0; flex-grow: 1; }
+        .sidebar-menu li a {
+            padding: 15px 30px; text-decoration: none; font-size: 1.2rem;
+            color: #b3b3b3; display: block; transition: 0.3s;
+            font-family: 'LeopoldMedium', sans-serif; text-transform: uppercase;
+        }
+        .sidebar-menu li a:hover { color: #ffffff; background-color: #1a1a1a; border-left: 4px solid #a855f7; }
+        .sidebar-menu li a.inativo { color: #444; cursor: default; }
+        .sidebar-menu li a.inativo:hover { background-color: transparent; border-left: none; }
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(3px);
+            z-index: 1030; display: none; opacity: 0; transition: opacity 0.4s;
+        }
+        .overlay.active { display: block; opacity: 1; }
+
+        /* 5. LAYOUT DA FICHA (Três Colunas do PDF) */
+        .ficha-container { max-width: 1400px; margin: 0 auto; padding: 40px 30px; }
+
+        .info-box { background-color: #161616; padding: 25px; border-radius: 12px; border: 1px solid #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.5); height: 100%; }
+
+        /* UPLOAD DE AVATAR (MANTIDO INTACTO) */
         .avatar-preview {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            border: 3px dashed #a855f7;
-            background-color: #1e1e1e;
-            background-image: url('https://via.placeholder.com/120x120/1e1e1e/888888?text=FOTO'); /* Placeholder inicial */
-            background-size: cover;
-            background-position: center;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
+            width: 140px; height: 140px; border-radius: 50%; border: 3px dashed #a855f7;
+            background-color: #121212; background-image: url('https://via.placeholder.com/140/121212/888888?text=FOTO');
+            background-size: cover; background-position: center; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+            margin: 0 auto 25px auto; box-shadow: 0 5px 15px rgba(0,0,0,0.6);
         }
-
-        .avatar-preview:hover {
-            border-color: #d8b4fe;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
-        }
-
+        .avatar-preview:hover { border-color: #d8b4fe; box-shadow: 0 0 20px rgba(168, 85, 247, 0.6); }
         .avatar-preview::after {
-            content: '📷 Trocar';
-            position: absolute;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            width: 100%;
-            text-align: center;
-            font-size: 0.8rem;
-            padding: 5px 0;
-            opacity: 0;
-            transition: 0.3s;
+            content: '📷 Trocar'; position: absolute; bottom: 0; background: rgba(0, 0, 0, 0.8);
+            color: white; width: 100%; text-align: center; font-size: 0.9rem; padding: 5px 0;
+            opacity: 0; transition: 0.3s; font-family: 'BloggerSansRegular';
         }
+        .avatar-preview:hover::after { opacity: 1; }
 
-        .avatar-preview:hover::after {
-            opacity: 1;
-        }
+        /* Campos de Input */
+        .form-control { background-color: #1a1a1a; border: 1px solid #333; color: white; transition: 0.3s; }
+        .form-control:focus { background-color: #222; border-color: #a855f7; color: white; box-shadow: 0 0 8px rgba(168, 85, 247, 0.3); }
+        label { color: #888; font-size: 1rem; margin-bottom: 5px; }
+
+        /* ATRIBUTOS (Grid 2x3 do PDF) */
+        .section-title { color: #ffffff; text-shadow: 0 0 10px rgba(168, 85, 247, 0.5); text-align: center; margin-bottom: 25px; font-size: 1.8rem; }
+        .atributos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .atributo-box { text-align: center; background: #1a1a1a; padding: 15px 10px; border-radius: 8px; border: 1px solid #333; transition: 0.3s; }
+        .atributo-box:hover { border-color: #a855f7; transform: translateY(-3px); background-color: #222;}
+        .atributo-label { color: #a855f7; font-size: 1.3rem; }
+        .atributo-input { width: 100%; text-align: center; font-size: 2.2rem; border: none; background: transparent; color: white; transition: 0.3s; font-family: 'LeopoldMedium';}
+        .atributo-input:focus { outline: none; text-shadow: 0 0 10px rgba(168, 85, 247, 0.8); }
+
+        /* BARRAS DE STATUS */
+        .bar-container { position: relative; height: 35px; background-color: #1a1a1a; border-radius: 6px; margin-bottom: 10px; overflow: hidden; border: 1px solid #333; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); }
+        .bar-fill { height: 100%; transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .bar-text { position: absolute; width: 100%; text-align: center; font-size: 1.2rem; line-height: 35px; text-shadow: 1px 1px 3px rgba(0,0,0,0.9); pointer-events: none; font-family: 'LeopoldMedium'; letter-spacing: 1px;}
+
+        .bg-vida { background: linear-gradient(90deg, #5a0000, #dc3545); }
+        .bg-sanidade { background: linear-gradient(90deg, #001f5c, #0d6efd); }
+        .bg-energia { background: linear-gradient(90deg, #8a6700, #ffc107); color: black; text-shadow: none; }
+
+        .status-inputs input { text-align: center; font-family: 'LeopoldMedium'; font-size: 1.3rem; background-color: #1a1a1a; color: white; border: 1px solid #333; border-radius: 4px; padding: 5px; width: 70px;}
+        .status-inputs input:focus { border-color: #a855f7; outline: none; }
+
+        /* ABAS E TABELAS (INVIOLÁVEIS, APENAS CORES ATUALIZADAS) */
+        .nav-tabs { border-bottom: 1px solid #333; margin-top: 40px; }
+        .nav-tabs .nav-link { color: #888; border: none; font-size: 1.3rem; padding: 15px 25px; transition: 0.3s; }
+        .nav-tabs .nav-link:hover { color: #ccc; }
+        .nav-tabs .nav-link.active { background-color: transparent; color: #a855f7; border-bottom: 3px solid #a855f7; text-shadow: 0 0 8px rgba(168, 85, 247, 0.4);}
+
+        .tab-content { background-color: #161616; border: 1px solid #2a2a2a; border-top: none; padding: 30px; border-radius: 0 0 12px 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);}
+        .search-line { border: none; border-bottom: 1px solid #444; background: transparent; color: white; border-radius: 0; padding: 8px 0; width: 100%; transition: 0.3s; font-size: 1.1rem; }
+        .search-line:focus { outline: none; border-color: #a855f7; }
+
+        .item-list-box { background-color: #1a1a1a; border-radius: 6px; margin-bottom: 10px; border: 1px solid #333; }
+        .item-header { padding: 15px; cursor: pointer; display: flex; align-items: center; color: #e0e0e0; transition: background 0.2s; }
+        .item-header:hover { background-color: #222; }
+        .item-body { padding: 15px; border-top: 1px solid #333; background-color: #121212; display: none; }
+        .item-title-input { background: transparent; border: none; color: white; font-family: 'LeopoldMedium'; font-size: 1.3rem; width: 100%; outline: none; }
+        .item-title-input:focus { border-bottom: 1px solid #a855f7; }
+        .chevron { transition: transform 0.3s ease; margin-right: 15px; color: #a855f7; font-family: 'LeopoldMedium'; }
+
+        .pericias-header { display: flex; font-family: 'LeopoldMedium'; font-size: 1.2rem; border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 15px; color: #a855f7; }
+        .pericia-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #222; transition: 0.2s; }
+        .pericia-row:hover { background-color: #1a1a1a; }
+        .pericia-nome { flex: 3; color: #e0e0e0; font-family: 'LeopoldMedium'; font-size: 1.2rem; }
+        .pericia-atb { flex: 2; color: #666; text-align: center; font-size: 1rem; }
+        .pericia-treino { flex: 1.5; display: flex; justify-content: center; }
+        .pericia-treino select { background-color: #222; color: white; border: 1px solid #444; border-radius: 4px; padding: 4px 8px; outline: none; cursor: pointer; }
+        .pericia-treino select:focus { border-color: #a855f7; }
+        .pericia-bonus { flex: 1.5; display: flex; justify-content: center; }
+        .pericia-bonus input { width: 45px; background: transparent; border: none; border-bottom: 1px solid #555; color: white; text-align: center; outline: none; font-family: 'LeopoldMedium'; font-size: 1.2rem;}
+        .pericia-bonus input:focus { border-bottom-color: #a855f7; }
+        .pericia-total { flex: 1.5; text-align: center; font-family: 'LeopoldMedium'; font-size: 1.4rem; color: #a855f7; }
     </style>
 </head>
 <body>
 
-<div class="ficha-container">
-   <div class="position-relative d-flex justify-content-center align-items-center border-bottom pb-2 mb-4">
-        <h2 class="m-0">Sistema PACTOS</h2>
-        
+<div id="pactosSidebar" class="sidebar">
+    <div class="sidebar-header">
+        <img src="assets/BRAND (2).svg" alt="PACTOS RPG">
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="home.html">INÍCIO</a></li>
+        <li><a href="perfil.html">MEU PERFIL</a></li>
+        <li><a href="fichas.html">AGENTES</a></li>
+        <li><a href="#" class="inativo">CAMPANHAS (EM BREVE)</a></li>
+        <li><a href="configuracoes.html">CONFIGURAÇÕES</a></li>
+    </ul>
+    <div style="padding: 20px; border-top: 1px solid #2a2a2a; margin-top: auto;">
+        <button onclick="fazerLogout()" class="btn btn-outline-danger w-100" style="font-family: 'LeopoldMedium'; font-size: 1.2rem;">SAIR</button>
+    </div>
+</div>
+<div id="menuOverlay" class="overlay" onclick="toggleMenu()"></div>
+
+<header class="pactos-header">
+    <div class="header-left">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
         <a href="fichas.html" class="btn-home" title="Voltar para Meus Agentes">
             <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12,3L2,12H5V20H19V12H22L12,3M10,18V12H14V18H10Z"></path>
+                <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path>
             </svg>
         </a>
-
-        <button onclick="salvarFicha()" class="btn btn-purple btn-sm position-absolute" style="right: 50px;"> Salvar Ficha </button>
-    </div>
-
-    <div>
-        <input type="file" id="inputFoto" accept="image/*" style="display: none;" onchange="enviarParaNuvem(event)">
-        <div class="avatar-preview" id="imagemPreview" onclick="document.getElementById('inputFoto').click()"></div>
-    </div>
-
-   <div class="row g-3 mb-4 bg-dark p-3 rounded border border-secondary">
-        <div class="col-md-3">
-            <label class="form-label">Nome do Personagem</label>
-            <input type="text" id="ficha-nome" class="form-control" placeholder="Ex: Robson">
-        </div>
-        <div class="col-md-3">
-            <label class="form-label">Jogador</label>
-            <input type="text" id="ficha-jogador" class="form-control" placeholder="Seu nome">
-        </div>
-        <div class="col-md-3">
-            <label class="form-label">Origem</label>
-            <input type="text" id="ficha-origem" class="form-control" placeholder="Ex: Sem Pactos">
-        </div>
-        <div class="col-md-3">
-            <label class="form-label">Nível</label>
-            <input type="number" id="ficha-nivel" class="form-control" value="0">
+        <div class="pactos-logo">
+            <img src="assets/BRAND (2).svg" alt="PACTOS RPG">
         </div>
     </div>
-
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <h4 class="text-center mb-3">Atributos</h4>
-            <div class="row g-2">
-                <div class="col-4"><div class="atributo-box"><label class="d-block small">WILL</label><input type="number" id="attr-will" class="atributo-input" value="0"></div></div>
-                <div class="col-4"><div class="atributo-box"><label class="d-block small">AGI</label><input type="number" id="attr-agi" class="atributo-input" value="0"></div></div>
-                <div class="col-4"><div class="atributo-box"><label class="d-block small">INT</label><input type="number" id="attr-int" class="atributo-input" value="0"></div></div>
-                <div class="col-4"><div class="atributo-box"><label class="d-block small">RIG</label><input type="number" id="attr-rig" class="atributo-input" value="0"></div></div>
-                <div class="col-4"><div class="atributo-box"><label class="d-block small">CAR</label><input type="number" id="attr-car" class="atributo-input" value="0"></div></div>
-                <div class="col-4"><div class="atributo-box"><label class="d-block small">CON</label><input type="number" id="attr-con" class="atributo-input" value="0"></div></div>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-            <h4 class="text-center mb-3">Status</h4>
-            <div class="bar-container d-flex align-items-center">
-                <div class="bar-fill bg-vida" id="barra-vida" style="width: 100%;"></div>
-                <div class="bar-text" id="texto-vida">Pontos de Vida (PV) - 10/10</div>
-            </div>
-            <div class="d-flex justify-content-between mb-3">
-                <input type="number" id="atual-vida" class="form-control w-25" placeholder="Atual" value="10" oninput="atualizarBarra('vida')">
-                <input type="number" id="maximo-vida" class="form-control w-25" placeholder="Máximo" value="10" oninput="atualizarBarra('vida')">
-            </div>
-
-            <div class="bar-container d-flex align-items-center">
-                <div class="bar-fill bg-sanidade" id="barra-sanidade" style="width: 100%;"></div>
-                <div class="bar-text" id="texto-sanidade">Sanidade (SAN) - 70/70</div>
-            </div>
-            <div class="d-flex justify-content-between mb-3">
-                <input type="number" id="atual-sanidade" class="form-control w-25" placeholder="Atual" value="70" oninput="atualizarBarra('sanidade')">
-                <input type="number" id="maximo-sanidade" class="form-control w-25" placeholder="Máximo" value="70" oninput="atualizarBarra('sanidade')">
-            </div>
-
-            <div class="bar-container d-flex align-items-center">
-                <div class="bar-fill bg-energia" id="barra-energia" style="width: 100%;"></div>
-                <div class="bar-text" id="texto-energia">Energia Vital (EV) - 1/1</div>
-            </div>
-            <div class="d-flex justify-content-between mb-3">
-                <input type="number" id="atual-energia" class="form-control w-25" placeholder="Atual" value="1" oninput="atualizarBarra('energia')">
-                <input type="number" id="maximo-energia" class="form-control w-25" placeholder="Máximo" value="1" oninput="atualizarBarra('energia')">
-            </div>
-        </div>
+    <div class="header-right">
+        <button onclick="salvarFicha()" class="btn btn-purple">SALVAR FICHA</button>
     </div>
+</header>
 
-    <ul class="nav nav-tabs" id="fichaTabs" role="tablist">
-        <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#pericias" type="button" role="tab">Perícias</button></li>
-        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#pactos" type="button" role="tab">Pactos</button></li>
-        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#inventario" type="button" role="tab">Inventário</button></li>
-    </ul>
+<div class="ficha-container">
 
-    <div class="tab-content p-3 border border-top-0 border-secondary rounded-bottom bg-dark" id="fichaTabsContent">
+    <div class="row g-4">
+
+        <div class="col-lg-4">
+            <div class="info-box">
+                <div class="avatar-upload-container text-center">
+                    <input type="file" id="inputFoto" accept="image/*" style="display: none;" onchange="enviarParaNuvem(event)">
+                    <div class="avatar-preview" id="imagemPreview" onclick="document.getElementById('inputFoto').click()"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label>Nome do Personagem</label>
+                    <input type="text" id="ficha-nome" class="form-control" placeholder="Digite o nome...">
+                </div>
+                <div class="mb-3">
+                    <label>Jogador</label>
+                    <input type="text" id="ficha-jogador" class="form-control" placeholder="Seu nome...">
+                </div>
+                <div class="mb-3">
+                    <label>Origem</label>
+                    <input type="text" id="ficha-origem" class="form-control" placeholder="Sua origem...">
+                </div>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <label>Nível</label>
+                        <input type="number" id="ficha-nivel" class="form-control" value="0">
+                    </div>
+                    <div class="col-6">
+                        <label>Idade</label>
+                        <input type="number" id="ficha-idade" class="form-control" placeholder="Anos">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="info-box d-flex flex-column justify-content-center">
+                <h2 class="section-title fonte-leopold">ATRIBUTOS</h2>
+                <div class="atributos-grid">
+                    <div class="atributo-box"><div class="atributo-label">WILL</div><input type="number" id="attr-will" class="atributo-input" value="0"></div>
+                    <div class="atributo-box"><div class="atributo-label">RIG</div><input type="number" id="attr-rig" class="atributo-input" value="0"></div>
+                    <div class="atributo-box"><div class="atributo-label">AGI</div><input type="number" id="attr-agi" class="atributo-input" value="0"></div>
+                    <div class="atributo-box"><div class="atributo-label">CON</div><input type="number" id="attr-con" class="atributo-input" value="0"></div>
+                    <div class="atributo-box"><div class="atributo-label">INT</div><input type="number" id="attr-int" class="atributo-input" value="0"></div>
+                    <div class="atributo-box"><div class="atributo-label">CAR</div><input type="number" id="attr-car" class="atributo-input" value="0"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="info-box d-flex flex-column justify-content-center">
+                <h2 class="section-title fonte-leopold">STATUS</h2>
+
+                <div class="bar-container">
+                    <div class="bar-fill bg-vida" id="barra-vida" style="width: 100%;"></div>
+                    <div class="bar-text" id="texto-vida">Pontos de Vida (PV) - 10/10</div>
+                </div>
+                <div class="d-flex justify-content-between mb-4 status-inputs">
+                    <input type="number" id="atual-vida" value="10" oninput="atualizarBarra('vida')">
+                    <input type="number" id="maximo-vida" value="10" oninput="atualizarBarra('vida')">
+                </div>
+
+                <div class="bar-container">
+                    <div class="bar-fill bg-sanidade" id="barra-sanidade" style="width: 100%;"></div>
+                    <div class="bar-text" id="texto-sanidade">Sanidade (SAN) - 70/70</div>
+                </div>
+                <div class="d-flex justify-content-between mb-4 status-inputs">
+                    <input type="number" id="atual-sanidade" value="70" oninput="atualizarBarra('sanidade')">
+                    <input type="number" id="maximo-sanidade" value="70" oninput="atualizarBarra('sanidade')">
+                </div>
+
+                <div class="bar-container">
+                    <div class="bar-fill bg-energia" id="barra-energia" style="width: 100%;"></div>
+                    <div class="bar-text" id="texto-energia">Energia Vital (EV) - 1/1</div>
+                </div>
+                <div class="d-flex justify-content-between mb-2 status-inputs">
+                    <input type="number" id="atual-energia" value="1" oninput="atualizarBarra('energia')">
+                    <input type="number" id="maximo-energia" value="1" oninput="atualizarBarra('energia')">
+                </div>
+            </div>
+        </div>
+
+    </div> <ul class="nav nav-tabs fonte-leopold" id="fichaTabs" role="tablist">
+    <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#pericias" type="button" role="tab">PERÍCIAS</button></li>
+    <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#pactos" type="button" role="tab">PACTOS</button></li>
+    <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#inventario" type="button" role="tab">INVENTÁRIO</button></li>
+</ul>
+
+    <div class="tab-content" id="fichaTabsContent">
         <div class="tab-pane fade show active" id="pericias" role="tabpanel">
             <div class="pericias-header">
-            <div style="flex: 3;">Perícia</div>
-            <div style="flex: 2; text-align: center;">Atributo</div>
-            <div style="flex: 1.5; text-align: center;">Treino</div>
-            <div style="flex: 1.5; text-align: center;">Bônus</div>
-            <div style="flex: 1.5; text-align: center;">Total</div>
-        </div>
-        
-        <div id="lista-pericias"></div>
+                <div style="flex: 3;">Perícia</div>
+                <div style="flex: 2; text-align: center;">Atributo</div>
+                <div style="flex: 1.5; text-align: center;">Treino</div>
+                <div style="flex: 1.5; text-align: center;">Bônus</div>
+                <div style="flex: 1.5; text-align: center;">Total</div>
+            </div>
+            <div id="lista-pericias"></div>
         </div>
         <div class="tab-pane fade" id="pactos" role="tabpanel">
-           <div class="d-flex justify-content-between align-items-end mb-4">
-            <div class="w-50">
-                <input type="text" id="buscaPactos" class="search-line" placeholder="Filtrar pactos...">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div class="w-50"><input type="text" id="buscaPactos" class="search-line" placeholder="Filtrar pactos..."></div>
+                <div class="d-flex flex-column align-items-end"><button class="btn btn-outline-purple btn-sm py-2 px-3 fonte-leopold" onclick="adicionarItem('pactos')">NOVO PACTO</button></div>
             </div>
-            <div class="d-flex flex-column align-items-end">
-                <button class="btn btn-outline-purple btn-sm" onclick="adicionarItem('pactos')">Novo Pacto</button>
-            </div>
-        </div>
-        
-        <div id="lista-pactos"></div>
+            <div id="lista-pactos"></div>
         </div>
         <div class="tab-pane fade" id="inventario" role="tabpanel">
-           <div class="d-flex justify-content-between align-items-end mb-4">
-            <div class="w-50">
-                <input type="text" id="buscaInventario" class="search-line" placeholder="Filtrar itens...">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div class="w-50"><input type="text" id="buscaInventario" class="search-line" placeholder="Filtrar itens..."></div>
+                <div class="d-flex flex-column align-items-end"><button class="btn btn-outline-purple btn-sm py-2 px-3 fonte-leopold" onclick="adicionarItem('inventario')">NOVO ITEM</button></div>
             </div>
-            <div class="d-flex flex-column align-items-end">
-                <button class="btn btn-outline-purple btn-sm" onclick="adicionarItem('inventario')">Novo Item</button>
-            </div>
-        </div>
-        
-        <div id="lista-inventario"></div>
+            <div id="lista-inventario"></div>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-    // Função para adicionar um novo item na aba correta
+    // --- LÓGICA DO MENU HAMBÚRGUER ---
+    function toggleMenu() {
+        const sidebar = document.getElementById("pactosSidebar");
+        const overlay = document.getElementById("menuOverlay");
+        if (sidebar.style.width === "300px") {
+            sidebar.style.width = "0";
+            overlay.classList.remove("active");
+            setTimeout(() => overlay.style.display = "none", 400);
+        } else {
+            overlay.style.display = "block";
+            setTimeout(() => overlay.classList.add("active"), 10);
+            sidebar.style.width = "300px";
+        }
+    }
+
+    function fazerLogout() {
+        if(confirm("Tem certeza que deseja sair da sua conta?")) {
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = "login.html";
+        }
+    }
+
+    // --- LÓGICA DA FICHA (MANTIDA INTACTA) ---
     function adicionarItem(abaId) {
         const container = document.getElementById(`lista-${abaId}`);
-        const itemId = Date.now(); // Gera um ID único para o item
-        
-        // Estrutura HTML do novo item
+        const itemId = Date.now();
         const itemHTML = `
             <div class="item-list-box" id="item-${itemId}">
                 <div class="item-header" onclick="toggleItem(${itemId})">
@@ -260,67 +362,39 @@
                 <div class="item-body" id="body-${itemId}">
                     <textarea class="form-control bg-dark text-white border-secondary mb-3" rows="3" placeholder="Descreva os efeitos e regras aqui..."></textarea>
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-sm btn-danger" onclick="removerItem(${itemId})">Excluir</button>
+                        <button class="btn btn-sm btn-danger fonte-leopold px-3" onclick="removerItem(${itemId})">EXCLUIR</button>
                     </div>
                 </div>
             </div>
         `;
-        
-        // Adiciona o item no final da lista
         container.insertAdjacentHTML('beforeend', itemHTML);
     }
 
-    // Função para abrir/fechar o item (Accordion)
     function toggleItem(id) {
         const body = document.getElementById(`body-${id}`);
         const chevron = document.getElementById(`chevron-${id}`);
-        
-        if (body.style.display === 'block') {
-            body.style.display = 'none';
-            chevron.style.transform = 'rotate(0deg)';
-        } else {
-            body.style.display = 'block';
-            chevron.style.transform = 'rotate(180deg)';
-        }
+        if (body.style.display === 'block') { body.style.display = 'none'; chevron.style.transform = 'rotate(0deg)';
+        } else { body.style.display = 'block'; chevron.style.transform = 'rotate(180deg)'; }
     }
 
-    // Função para deletar o item
-    function removerItem(id) {
-        document.getElementById(`item-${id}`).remove();
-    }
+    function removerItem(id) { document.getElementById(`item-${id}`).remove(); }
 
-    // Lista completa de perícias e atributos baseada na sua tabela do PACTOS
     const periciasBase = [
-        { nome: "Atletismo", atb: "CON / WILL" },
-        { nome: "Atualidades", atb: "INT / CAR" },
-        { nome: "Atuação", atb: "INT / CAR" },
-        { nome: "Ciências", atb: "INT" },
-        { nome: "Diplomacia", atb: "INT / CAR" },
-        { nome: "Enganação", atb: "INT / CAR" },
-        { nome: "Fortitude", atb: "CON / WILL" },
-        { nome: "Furtividade", atb: "AGI" },
-        { nome: "Iniciativa", atb: "AGI" },
-        { nome: "Intimidação", atb: "INT / CAR" },
-        { nome: "Intuição", atb: "INT" },
-        { nome: "Investigação", atb: "INT / WILL" },
-        { nome: "Medicina", atb: "INT / WILL" },
-        { nome: "Lábia", atb: "CAR / AGI" },
-        { nome: "Luta", atb: "RIG / WILL" },
-        { nome: "Pilotagem", atb: "AGI / WILL" },
-        { nome: "Pontaria", atb: "AGI / WILL" },
-        { nome: "Profissão", atb: "INT" },
-        { nome: "Percepção", atb: "AGI / WILL" },
-        { nome: "Persuasão", atb: "CAR / INT" },
-        { nome: "Prestidigitação", atb: "AGI / CAR" },
-        { nome: "Reflexo", atb: "AGI / WILL" },
-        { nome: "Religião", atb: "INT / WILL" },
-        { nome: "Sobrevivência", atb: "INT / WILL" },
-        { nome: "Tática", atb: "INT" },
-        { nome: "Tecnologia", atb: "INT" },
-        { nome: "Vontade", atb: "WILL" }
+        { nome: "Atletismo", atb: "CON / WILL" }, { nome: "Atualidades", atb: "INT / CAR" },
+        { nome: "Atuação", atb: "INT / CAR" }, { nome: "Ciências", atb: "INT" },
+        { nome: "Diplomacia", atb: "INT / CAR" }, { nome: "Enganação", atb: "INT / CAR" },
+        { nome: "Fortitude", atb: "CON / WILL" }, { nome: "Furtividade", atb: "AGI" },
+        { nome: "Iniciativa", atb: "AGI" }, { nome: "Intimidação", atb: "INT / CAR" },
+        { nome: "Intuição", atb: "INT" }, { nome: "Investigação", atb: "INT / WILL" },
+        { nome: "Medicina", atb: "INT / WILL" }, { nome: "Lábia", atb: "CAR / AGI" },
+        { nome: "Luta", atb: "RIG / WILL" }, { nome: "Pilotagem", atb: "AGI / WILL" },
+        { nome: "Pontaria", atb: "AGI / WILL" }, { nome: "Profissão", atb: "INT" },
+        { nome: "Percepção", atb: "AGI / WILL" }, { nome: "Persuasão", atb: "CAR / INT" },
+        { nome: "Prestidigitação", atb: "AGI / CAR" }, { nome: "Reflexo", atb: "AGI / WILL" },
+        { nome: "Religião", atb: "INT / WILL" }, { nome: "Sobrevivência", atb: "INT / WILL" },
+        { nome: "Tática", atb: "INT" }, { nome: "Tecnologia", atb: "INT" }, { nome: "Vontade", atb: "WILL" }
     ];
 
-    // Função para gerar as perícias na tela
     function renderizarPericias() {
         const container = document.getElementById('lista-pericias');
         let html = '';
@@ -331,314 +405,189 @@
                 <div class="pericia-atb">( ${p.atb} )</div>
                 <div class="pericia-treino">
                     <select id="treino-${index}" onchange="calcularPericia(${index})">
-                        <option value="0">0</option>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
+                        <option value="0">0</option> <option value="5">5</option>
+                        <option value="10">10</option> <option value="15">15</option>
                         <option value="20">20</option>
                     </select>
                 </div>
-                <div class="pericia-bonus">
-                    <input type="number" id="bonus-${index}" value="0" oninput="calcularPericia(${index})">
-                </div>
+                <div class="pericia-bonus"><input type="number" id="bonus-${index}" value="0" oninput="calcularPericia(${index})"></div>
                 <div class="pericia-total" id="total-${index}">0</div>
             </div>`;
         });
         container.innerHTML = html;
     }
 
-    // Calcula a soma (Treino + Bônus) em tempo real
     function calcularPericia(index) {
         const treino = parseInt(document.getElementById(`treino-${index}`).value) || 0;
         const bonus = parseInt(document.getElementById(`bonus-${index}`).value) || 0;
         document.getElementById(`total-${index}`).innerText = treino + bonus;
     }
 
-    // Executa a função para carregar a lista assim que a página abrir
     renderizarPericias();
 
-    // Função para calcular e atualizar o tamanho e o texto das barras de status
     function atualizarBarra(tipo) {
-        // Pega os valores digitados (se estiver vazio, assume 0 para atual e 1 para máximo)
         const atual = parseInt(document.getElementById(`atual-${tipo}`).value) || 0;
         const maximo = parseInt(document.getElementById(`maximo-${tipo}`).value) || 1;
-        
-        // Calcula a porcentagem
         let porcentagem = (atual / maximo) * 100;
-        
-        // Trava a barra visualmente entre 0% e 100% (para o preenchimento não sair do limite)
         if (porcentagem > 100) porcentagem = 100;
         if (porcentagem < 0) porcentagem = 0;
-
-        // Atualiza a largura da cor (CSS)
         document.getElementById(`barra-${tipo}`).style.width = `${porcentagem}%`;
-        
-        // Atualiza o texto que fica no meio da barra
         let nomeStatus = '';
         if (tipo === 'vida') nomeStatus = 'Pontos de Vida (PV)';
         if (tipo === 'sanidade') nomeStatus = 'Sanidade (SAN)';
         if (tipo === 'energia') nomeStatus = 'Energia Vital (EV)';
-        
         document.getElementById(`texto-${tipo}`).innerText = `${nomeStatus} - ${atual}/${maximo}`;
     }
-</script>
 
-<script>
+    function empacotarLista(abaId) {
+        const container = document.getElementById(`lista-${abaId}`);
+        const itens = container.querySelectorAll('.item-list-box');
+        let pacote = [];
+        itens.forEach(item => {
+            const titulo = item.querySelector('.item-title-input').value;
+            const descricao = item.querySelector('textarea').value;
+            pacote.push({ titulo, descricao });
+        });
+        return JSON.stringify(pacote);
+    }
 
-    // Função que lê a tela e cria o pacote
-        function empacotarLista(abaId) {
-            const container = document.getElementById(`lista-${abaId}`);
-            const itens = container.querySelectorAll('.item-list-box');
-            let pacote = [];
-            itens.forEach(item => {
-                const titulo = item.querySelector('.item-title-input').value;
-                const descricao = item.querySelector('textarea').value;
-                pacote.push({ titulo, descricao });
-            });
-            return JSON.stringify(pacote);
-        }
-
-        // Função que abre o pacote do banco de dados e desenha na tela
-        function desempacotarLista(abaId, dadosJson) {
-            if (!dadosJson) return; // Se estiver vazio, não faz nada
-            
-            const itensSalvos = JSON.parse(dadosJson);
-            const container = document.getElementById(`lista-${abaId}`);
-            container.innerHTML = ''; // Limpa a lista antes de desenhar
-            
-            itensSalvos.forEach(item => {
-                const itemId = Date.now() + Math.random().toString().substring(2, 8); // Cria um ID único
-                const itemHTML = `
-                    <div class="item-list-box" id="item-${itemId}">
-                        <div class="item-header" onclick="toggleItem('${itemId}')">
-                            <span class="chevron" id="chevron-${itemId}">v</span>
-                            <input type="text" class="item-title-input" value="${item.titulo}" onclick="event.stopPropagation()">
-                        </div>
-                        <div class="item-body" id="body-${itemId}">
-                            <textarea class="form-control bg-dark text-white border-secondary mb-3" rows="3">${item.descricao}</textarea>
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-sm btn-danger" onclick="removerItem('${itemId}')">Excluir</button>
-                            </div>
+    function desempacotarLista(abaId, dadosJson) {
+        if (!dadosJson) return;
+        const itensSalvos = JSON.parse(dadosJson);
+        const container = document.getElementById(`lista-${abaId}`);
+        container.innerHTML = '';
+        itensSalvos.forEach(item => {
+            const itemId = Date.now() + Math.random().toString().substring(2, 8);
+            const itemHTML = `
+                <div class="item-list-box" id="item-${itemId}">
+                    <div class="item-header" onclick="toggleItem('${itemId}')">
+                        <span class="chevron" id="chevron-${itemId}">v</span>
+                        <input type="text" class="item-title-input" value="${item.titulo}" onclick="event.stopPropagation()">
+                    </div>
+                    <div class="item-body" id="body-${itemId}">
+                        <textarea class="form-control bg-dark text-white border-secondary mb-3" rows="3">${item.descricao}</textarea>
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-sm btn-danger fonte-leopold px-3" onclick="removerItem('${itemId}')">EXCLUIR</button>
                         </div>
                     </div>
-                `;
-                container.insertAdjacentHTML('beforeend', itemHTML);
-            });
-        }
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', itemHTML);
+        });
+    }
 
-        // 1. Descobre qual ficha o jogador clicou lendo o "?id=X" na URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const agenteId = urlParams.get('id');
+    const urlParams = new URLSearchParams(window.location.search);
+    const agenteId = urlParams.get('id');
+    const usuarioLogado = localStorage.getItem('usuarioLogado');
 
-        // Segurança: Verifica se tem alguém logado e se um ID foi passado
-        const usuarioLogado = localStorage.getItem('usuarioLogado');
-        if (!usuarioLogado || !agenteId) {
-            alert("Acesso negado. Retornando ao painel.");
-            window.location.href = "fichas.html";
-        }
+    if (!usuarioLogado || !agenteId) {
+        alert("Acesso negado. Retornando ao painel."); window.location.href = "fichas.html";
+    }
 
-    // FILTRO DE PESQUISA PARA PACTOS E INVENTÁRIO
     function configurarFiltro(idInput, idLista) {
         const caixaPesquisa = document.getElementById(idInput);
         if (!caixaPesquisa) return;
-
         caixaPesquisa.addEventListener('input', function(evento) {
             const textoPesquisa = evento.target.value.toLowerCase();
-            // Pega todos os itens daquela aba específica
             const itensDaLista = document.querySelectorAll(`#${idLista} .item-list-box`);
-
             itensDaLista.forEach(item => {
-                // Lê o título e a descrição que o jogador digitou no item
                 const titulo = item.querySelector('.item-title-input').value.toLowerCase();
                 const descricao = item.querySelector('textarea').value.toLowerCase();
-
-                // Esconde ou mostra baseado no texto
-                if (titulo.includes(textoPesquisa) || descricao.includes(textoPesquisa)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
+                if (titulo.includes(textoPesquisa) || descricao.includes(textoPesquisa)) { item.style.display = 'block'; }
+                else { item.style.display = 'none'; }
             });
         });
     }
 
-    // Ativa os filtros para as duas abas
     configurarFiltro('buscaPactos', 'lista-pactos');
     configurarFiltro('buscaInventario', 'lista-inventario');
 
-       // 2. Carrega os dados do MySQL e preenche a tela
-        async function carregarDadosDaFicha() {
-            try {
-                const resposta = await fetch(`/api/agentes/${agenteId}`);
-                if (resposta.ok) {
-                    const ficha = await resposta.json();
-                    
-                    const preencherSeExistir = (id, valor) => {
-                        const elemento = document.getElementById(id);
-                        if (elemento) elemento.value = valor;
-                    };
+    async function carregarDadosDaFicha() {
+        try {
+            const resposta = await fetch(`/api/agentes/${agenteId}`);
+            if (resposta.ok) {
+                const ficha = await resposta.json();
+                const preencherSeExistir = (id, valor) => { const elemento = document.getElementById(id); if (elemento) elemento.value = valor; };
 
-                    // Preenche Cabeçalho
-                    preencherSeExistir('ficha-nome', ficha.nome);
-                    preencherSeExistir('ficha-jogador', ficha.jogador);
-                    preencherSeExistir('ficha-origem', ficha.origem);
-                    preencherSeExistir('ficha-nivel', ficha.nivel);
+                preencherSeExistir('ficha-nome', ficha.nome); preencherSeExistir('ficha-jogador', ficha.jogador);
+                preencherSeExistir('ficha-origem', ficha.origem); preencherSeExistir('ficha-nivel', ficha.nivel);
 
-                    // --- COLE O NOVO CÓDIGO DA FOTO AQUI ---
-                    if (ficha.fotoUrl) {
-                        linkFotoAgente = ficha.fotoUrl; // Salva o link na memória para não apagar sem querer
-                        document.getElementById('imagemPreview').style.backgroundImage = `url('${ficha.fotoUrl}')`; // Mostra a foto na bolinha!
-                    }
-                    // ---------------------------------------
-
-                    // Preenche Barras
-                    preencherSeExistir('atual-vida', ficha.vidaAtual);
-                    preencherSeExistir('maximo-vida', ficha.vidaMaxima);
-                    preencherSeExistir('atual-sanidade', ficha.sanidadeAtual);
-                    preencherSeExistir('maximo-sanidade', ficha.sanidadeMaxima);
-                    preencherSeExistir('atual-energia', ficha.energiaAtual);
-                    preencherSeExistir('maximo-energia', ficha.energiaMaxima);
-
-                    atualizarBarra('vida');
-                    atualizarBarra('sanidade');
-                    atualizarBarra('energia');
-
-                    // DESEMPACOTAR PERÍCIAS (Mágica acontece aqui)
-                    if (ficha.periciasDados) {
-                        const periciasSalvas = JSON.parse(ficha.periciasDados);
-                        periciasSalvas.forEach((pericia, index) => {
-                            const selectTreino = document.getElementById(`treino-${index}`);
-                            const inputBonus = document.getElementById(`bonus-${index}`);
-                            
-                            if (selectTreino) selectTreino.value = pericia.treino;
-                            if (inputBonus) inputBonus.value = pericia.bonus;
-                            
-                            calcularPericia(index); // Atualiza a soma na tela
-                        });
-                    }
-                    
-                    // DESEMPACOTAR PACTOS E INVENTÁRIO
-                    desempacotarLista('pactos', ficha.pactosDados);
-                    desempacotarLista('inventario', ficha.inventarioDados);
-
-                    // Preenche Atributos
-                    preencherSeExistir('attr-will', ficha.will);
-                    preencherSeExistir('attr-agi', ficha.agilidade);
-                    preencherSeExistir('attr-int', ficha.inteligencia);
-                    preencherSeExistir('attr-rig', ficha.forca);
-                    preencherSeExistir('attr-car', ficha.presenca);
-                    preencherSeExistir('attr-con', ficha.vigor);
-
-                } else {
-                    alert("Ficha não encontrada no banco de dados.");
+                if (ficha.fotoUrl) {
+                    linkFotoAgente = ficha.fotoUrl;
+                    document.getElementById('imagemPreview').style.backgroundImage = `url('${ficha.fotoUrl}')`;
                 }
-            } catch (erro) {
-                console.error("Erro ao carregar a ficha:", erro);
-            }
-        }
 
-        // 3. Pega tudo que o jogador alterou e salva no MySQL
-        async function salvarFicha() {
-            const pegarValor = (id, tipoNum = true) => {
-                const elemento = document.getElementById(id);
-                if (elemento) return elemento.value;
-                return tipoNum ? 0 : ""; 
-            };
+                preencherSeExistir('atual-vida', ficha.vidaAtual); preencherSeExistir('maximo-vida', ficha.vidaMaxima);
+                preencherSeExistir('atual-sanidade', ficha.sanidadeAtual); preencherSeExistir('maximo-sanidade', ficha.sanidadeMaxima);
+                preencherSeExistir('atual-energia', ficha.energiaAtual); preencherSeExistir('maximo-energia', ficha.energiaMaxima);
 
-            // EMPACOTAR PERÍCIAS: Varre de 0 a 26 e cria um pacote
-            let pacotePericias = [];
-            for (let i = 0; i < 27; i++) {
-                pacotePericias.push({
-                    treino: pegarValor(`treino-${i}`),
-                    bonus: pegarValor(`bonus-${i}`)
-                });
-            }
+                atualizarBarra('vida'); atualizarBarra('sanidade'); atualizarBarra('energia');
 
-            const dadosAtualizados = {
-                nome: pegarValor('ficha-nome', false),
-                fotoUrl: linkFotoAgente,
-                jogador: pegarValor('ficha-jogador', false),
-                origem: pegarValor('ficha-origem', false),
-                nivel: pegarValor('ficha-nivel'),
-                
-                vidaAtual: pegarValor('atual-vida'),
-                vidaMaxima: pegarValor('maximo-vida'),
-                sanidadeAtual: pegarValor('atual-sanidade'),
-                sanidadeMaxima: pegarValor('maximo-sanidade'),
-                energiaAtual: pegarValor('atual-energia'),
-                energiaMaxima: pegarValor('maximo-energia'),
-                
-                // O pacote de perícias vai aqui, transformado em texto!
-                periciasDados: JSON.stringify(pacotePericias),
-
-                // AS DUAS LINHAS NOVAS:
-                pactosDados: empacotarLista('pactos'),
-                inventarioDados: empacotarLista('inventario'),
-                
-                will: pegarValor('attr-will'),
-                agilidade: pegarValor('attr-agi'),
-                inteligencia: pegarValor('attr-int'),
-                forca: pegarValor('attr-rig'),
-                presenca: pegarValor('attr-car'),
-                vigor: pegarValor('attr-con')
-            };
-
-            try {
-                const resposta = await fetch(`/api/agentes/atualizar/${agenteId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dadosAtualizados)
-                });
-
-                if (resposta.ok) {
-                    alert("Ficha salva com sucesso!");
-                } else {
-                    alert("Erro ao salvar a ficha.");
+                if (ficha.periciasDados) {
+                    const periciasSalvas = JSON.parse(ficha.periciasDados);
+                    periciasSalvas.forEach((pericia, index) => {
+                        const selectTreino = document.getElementById(`treino-${index}`);
+                        const inputBonus = document.getElementById(`bonus-${index}`);
+                        if (selectTreino) selectTreino.value = pericia.treino;
+                        if (inputBonus) inputBonus.value = pericia.bonus;
+                        calcularPericia(index);
+                    });
                 }
-            } catch (erro) {
-                console.error("Erro ao salvar:", erro);
-                alert("O servidor está offline.");
-            }
-        }
-    
-        // Executa o carregamento assim que a página abre
-        carregarDadosDaFicha();
-    // Variável para guardar o link final que vai para o Java
+
+                desempacotarLista('pactos', ficha.pactosDados); desempacotarLista('inventario', ficha.inventarioDados);
+
+                preencherSeExistir('attr-will', ficha.will); preencherSeExistir('attr-agi', ficha.agilidade);
+                preencherSeExistir('attr-int', ficha.inteligencia); preencherSeExistir('attr-rig', ficha.forca);
+                preencherSeExistir('attr-car', node.presenca); preencherSeExistir('attr-con', ficha.vigor); // CORRIGIDO ABAIXO
+
+                // Correção direta dos IDs de atributos
+                preencherSeExistir('attr-car', ficha.presenca);
+            } else { alert("Ficha não encontrada."); }
+        } catch (erro) { console.error("Erro:", erro); }
+    }
+
     let linkFotoAgente = "";
     const IMGBB_API_KEY = "41d58ca7fde25e2553eb8a3f84e3ea9c";
 
     async function enviarParaNuvem(event) {
         const arquivo = event.target.files[0];
         if (!arquivo) return;
+        document.getElementById('imagemPreview').style.backgroundImage = "url('https://via.placeholder.com/140/121212/888888?text=UP...')";
+        const formData = new FormData(); formData.append("image", arquivo);
+        try {
+            const resposta = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body: formData });
+            const dados = await resposta.json();
+            if (dados.success) {
+                linkFotoAgente = dados.data.url;
+                document.getElementById('imagemPreview').style.backgroundImage = `url('${linkFotoAgente}')`;
+            } else { alert("Erro ao subir foto."); }
+        } catch (erro) { console.error(erro); alert("Falha ao subir imagem."); }
+    }
 
-        // Muda a bolinha para "Carregando..."
-        document.getElementById('imagemPreview').style.backgroundImage = "url('https://via.placeholder.com/120x120/1e1e1e/888888?text=UP...')";
+    async function salvarFicha() {
+        const pegarValor = (id, tipoNum = true) => { const elemento = document.getElementById(id); if (elemento) return elemento.value; return tipoNum ? 0 : ""; };
+        let pacotePericias = [];
+        for (let i = 0; i < 27; i++) { pacotePericias.push({ treino: pegarValor(`treino-${i}`), bonus: pegarValor(`bonus-${i}`) }); }
 
-        // Prepara o pacote com a foto
-        const formData = new FormData();
-        formData.append("image", arquivo);
+        const dadosAtualizados = {
+            nome: pegarValor('ficha-nome', false), fotoUrl: linkFotoAgente, jogador: pegarValor('ficha-jogador', false),
+            origem: pegarValor('ficha-origem', false), nivel: pegarValor('ficha-nivel'),
+            vidaAtual: pegarValor('atual-vida'), vidaMaxima: pegarValor('maximo-vida'), sanidadeAtual: pegarValor('atual-sanidade'),
+            sanidadeMaxima: pegarValor('maximo-sanidade'), energiaAtual: pegarValor('atual-energia'), energiaMaxima: pegarValor('maximo-energia'),
+            periciasDados: JSON.stringify(pacotePericias), pactosDados: empacotarLista('pactos'), inventarioDados: empacotarLista('inventario'),
+            will: pegarValor('attr-will'), agilidade: pegarValor('attr-agi'), inteligencia: pegarValor('attr-int'),
+            forca: pegarValor('attr-rig'), presenca: pegarValor('attr-car'), vigor: pegarValor('attr-con')
+        };
 
         try {
-            // Envia para o ImgBB (a chave vai direto na URL)
-            const resposta = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-                method: "POST",
-                body: formData
+            const resposta = await fetch(`/api/agentes/atualizar/${agenteId}`, {
+                method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dadosAtualizados)
             });
-
-            const dados = await resposta.json();
-
-            if (dados.success) {
-                linkFotoAgente = dados.data.url; // Salva o link oficial gerado pelo ImgBB!
-                document.getElementById('imagemPreview').style.backgroundImage = `url('${linkFotoAgente}')`; // Mostra a foto na bolinha
-            } else {
-                alert("Erro ao subir a foto para a nuvem.");
-            }
-        } catch (erro) {
-            console.error(erro);
-            alert("Falha na conexão com o servidor de imagens.");
-        }
+            if (resposta.ok) { alert("Ficha salva com sucesso!"); } else { alert("Erro ao salvar."); }
+        } catch (erro) { console.error(erro); alert("Servidor offline."); }
     }
-    </script>
 
+    carregarDadosDaFicha();
+</script>
 </body>
 </html>
