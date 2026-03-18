@@ -6,92 +6,141 @@
     <title>PACTOS RPG - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { 
-            background-color: #121212; 
-            color: #e0e0e0; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        /* IMPORTAÇÃO DAS FONTES OFICIAIS */
+        @font-face {
+            font-family: 'LeopoldMedium';
+            src: url('fonts/Leopold.otf') format('opentype');
+        }
+        @font-face {
+            font-family: 'BloggerSansRegular';
+            src: url('fonts/BloggerSans.otf') format('opentype');
+        }
+
+        body {
+            background-color: #000000;
+            color: #e0e0e0;
+            font-family: 'BloggerSansRegular', sans-serif;
             height: 100vh; display: flex; justify-content: center; align-items: center; margin: 0;
         }
+
+        /* Cartão de Login nos tons da ficha */
         .auth-card {
-            background-color: #1e1e1e;
+            background-color: #0f172a;
             padding: 40px;
-            border-radius: 10px;
-            border: 1px solid #333;
+            border-radius: 12px;
+            border: 1px solid #1e3a8a;
             width: 100%;
             max-width: 400px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 25px rgba(2, 6, 23, 0.8);
         }
-        .auth-title { color: #ffffff; text-shadow: 0 0 10px rgba(168, 85, 247, 0.5); text-align: center; margin-bottom: 30px; font-weight: bold; }
-        .form-control:focus { border-color: #a855f7; box-shadow: 0 0 5px rgba(168, 85, 247, 0.5); background-color: #2b2b2b; color: white; }
-        .btn-purple { background-color: #a855f7; color: white; border: none; font-weight: bold; width: 100%; transition: 0.3s; }
-        .btn-purple:hover { background-color: #9333ea; color: white; transform: scale(1.02); }
-        .auth-links { text-align: center; margin-top: 20px; font-size: 0.9em; }
-        .auth-links a { color: #a855f7; text-decoration: none; transition: 0.2s; }
-        .auth-links a:hover { color: #d8b4fe; text-decoration: underline; }
+
+        .auth-title {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(30, 58, 138, 0.8);
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'LeopoldMedium', sans-serif;
+            letter-spacing: 1px;
+            font-size: 2rem;
+        }
+
+        /* Campos de texto padrão PACTOS */
+        .form-control {
+            background-color: #080b12;
+            border: 1px solid #1e3a8a;
+            color: white;
+            transition: 0.3s;
+            font-family: 'BloggerSansRegular', sans-serif;
+        }
+        .form-control:focus {
+            background-color: #0f172a;
+            border-color: #3b82f6;
+            color: white;
+            box-shadow: 0 0 8px rgba(30, 58, 138, 0.5);
+        }
+        .form-label { color: #94a3b8; }
+
+        /* Botão de Login Azul Escuro */
+        .btn-blue {
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            font-family: 'LeopoldMedium', sans-serif;
+            font-size: 1.2rem;
+            transition: 0.3s;
+            border-radius: 6px;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(11, 28, 62, 0.5);
+        }
+        .btn-blue:hover {
+            background-color: #1d4ed8;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(29, 78, 216, 0.6);
+        }
+
+        .text-blue { color: #3b82f6 !important; text-decoration: none; transition: 0.3s; }
+        .text-blue:hover { color: #60a5fa !important; text-shadow: 0 0 8px rgba(59, 130, 246, 0.5); }
     </style>
 </head>
 <body>
 
-    <div class="auth-card">
-        <h2 class="auth-title">ENTRAR</h2>
+<div class="auth-card">
+    <h2 class="auth-title">ACESSAR CONTA</h2>
 
-        <form onsubmit="entrarNoSistema(event)">
-            <div class="mb-3">
-                <label class="form-label text-muted">Usuário</label>
-                <input type="text" id="nomeUsuarioLogin" class="form-control bg-dark text-light border-secondary" placeholder="Seu nome de usuário" required>
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label text-muted">Senha</label>
-                <input type="password" id="senhaLogin" class="form-control bg-dark text-light border-secondary" placeholder="Sua senha" required>
-            </div>
-
-            <button type="submit" class="btn btn-purple btn-lg">Acessar Sistema</button>
-        </form>
-
-        <div class="auth-links">
-            <span>Ainda não tem um pacto?</span> <a href="register.html">Registre-se aqui</a>
+    <form onsubmit="entrarNoSistema(event)">
+        <div class="mb-3">
+            <label for="nomeUsuarioLogin" class="form-label">Nome de Usuário</label>
+            <input type="text" class="form-control" id="nomeUsuarioLogin" required>
         </div>
-    </div>
 
-    <script>
-        async function entrarNoSistema(event) {
-            event.preventDefault(); // Impede a página de recarregar
+        <div class="mb-4">
+            <label for="senhaLogin" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="senhaLogin" required>
+        </div>
 
-            const nome = document.getElementById('nomeUsuarioLogin').value;
-            const senha = document.getElementById('senhaLogin').value;
+        <button type="submit" class="btn btn-blue w-100 py-2 mb-3">ENTRAR</button>
 
-            // Monta o "pacote" para enviar ao Java
-            const dadosLogin = {
-                nomeUsuario: nome,
-                senha: senha
-            };
+        <div class="text-center mt-3">
+            <span class="text-secondary">Não tem uma conta?</span>
+            <a href="register.html" class="text-blue fw-bold">Registre-se</a>
+        </div>
+    </form>
+</div>
 
-            try {
-                const resposta = await fetch('/api/usuarios/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dadosLogin)
-                });
+<script>
+    async function entrarNoSistema(event) {
+        event.preventDefault();
 
-                const textoRetorno = await resposta.text();
+        const nome = document.getElementById('nomeUsuarioLogin').value;
+        const senha = document.getElementById('senhaLogin').value;
 
-                if (resposta.ok) {
-                    // Se o Java retornou ResponseEntity.ok
-                    // AQUI É O PULO DO GATO: Salvamos o nome do jogador no navegador para usarmos depois!
-                    localStorage.setItem('usuarioLogado', nome);
+        const dadosLogin = {
+            nomeUsuario: nome,
+            senha: senha
+        };
 
-                    window.location.href = "fichas.html"; // Redireciona para o painel de agentes
-                } else {
-                    // Se o Java retornou UNAUTHORIZED
-                    alert(textoRetorno);
-                }
-            } catch (erro) {
-                console.error(erro);
-                alert("O servidor do PACTOS está offline.");
+        try {
+            const resposta = await fetch('/api/usuarios/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dadosLogin)
+            });
+
+            const textoRetorno = await resposta.text();
+
+            if (resposta.ok) {
+                localStorage.setItem('usuarioLogado', nome);
+                window.location.href = "fichas.html";
+            } else {
+                alert(textoRetorno);
             }
+        } catch (erro) {
+            console.error(erro);
+            alert("O servidor do PACTOS está offline.");
         }
-    </script>
+    }
+</script>
 
 </body>
 </html>
