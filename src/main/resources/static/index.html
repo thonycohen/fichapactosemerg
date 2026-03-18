@@ -144,39 +144,41 @@
         .section-title { color: #ffffff; text-shadow: 0 0 10px rgba(30, 58, 138, 0.8); text-align: center; margin-bottom: 25px; font-size: 1.8rem; }
 
         /* =========================================================
-           A MÁGICA DA ESTRELA DE ATRIBUTOS (TAMANHO E POSIÇÕES CALIBRADAS)
-           ========================================================= */
+            A MÁGICA DA ESTRELA DE ATRIBUTOS (COM PROPORÇÃO REAL)
+            ========================================================= */
         .estrela-container {
             position: relative;
             width: 100%;
-            max-width: 380px; /* Estrela aumentada */
-            aspect-ratio: 1 / 1;
+            max-width: 400px; /* Tamanho máximo da estrela */
             margin: 20px auto;
-            background-image: url('assets/atbpactos.png'); /* Sua imagem estrela */
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
+            /* Removemos o background-image daqui! */
+        }
+
+        /* A imagem dita o tamanho exato do container agora */
+        .estrela-img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .ponta-atributo {
             position: absolute;
-            width: 75px; height: 75px; /* Caixas de Hitbox maiores */
+            width: 80px; height: 80px;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            transform: translate(-50%, -50%); /* Eixo da coordenada é exatamente o meio do input */
-            /* Descomente a linha abaixo para ver os quadrados vermelhos de calibração se precisar: */
-            /* background-color: rgba(255,0,0,0.3); */
+            transform: translate(-50%, -50%);
+            /* DICA DE CALIBRAÇÃO: Retire os comentários da linha abaixo para ver caixas vermelhas e ajudar a alinhar! */
+            /* border: 2px solid red; background-color: rgba(255,0,0,0.3); */
         }
 
-        /* Coordenadas Perfeitas da Estrela de 6 pontas */
-        .ponta-will { top: 9%; left: 50%; }
-        .ponta-agi  { top: 29.5%; left: 86.5%; }
-        .ponta-int  { top: 70.5%; left: 86.5%; }
-        .ponta-car  { top: 91%; left: 50%; }
-        .ponta-con  { top: 70.5%; left: 13.5%; }
-        .ponta-rig  { top: 29.5%; left: 13.5%; }
+        /* Coordenadas - Pode alterar as percentagens se precisar de afinar! */
+        .ponta-will { top: 12%; left: 50%; }
+        .ponta-agi  { top: 32%; left: 85%; }
+        .ponta-int  { top: 68%; left: 85%; }
+        .ponta-car  { top: 88%; left: 50%; }
+        .ponta-con  { top: 68%; left: 15%; }
+        .ponta-rig  { top: 32%; left: 15%; }
 
-        /* O Input Invisível do Meio */
         .ponta-meio { top: 50%; left: 50%; }
 
         .estrela-label {
@@ -189,16 +191,14 @@
         }
 
         .estrela-input {
-            width: 100%; text-align: center; font-size: 2.4rem; /* Números mais evidentes */
+            width: 100%; text-align: center; font-size: 2.6rem;
             border: none; background: transparent; color: white;
             transition: 0.3s; font-family: 'LeopoldMedium';
             text-shadow: 2px 2px 8px rgba(0,0,0,1);
             z-index: 2;
         }
         .estrela-input:focus { outline: none; text-shadow: 0 0 15px rgba(96, 165, 250, 1); }
-
-        /* Modificador especial para o input central ser maior */
-        .input-meio { font-size: 3.5rem; color: #93c5fd; }
+        .input-meio { font-size: 3.8rem; color: #93c5fd; margin-top: 10px; }
 
         /* BARRAS DE STATUS */
         .bar-container { position: relative; height: 35px; background-color: #080b12; border-radius: 6px; margin-bottom: 10px; overflow: hidden; border: 1px solid #1e3a8a; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); }
@@ -321,6 +321,8 @@
                 <h2 class="section-title fonte-leopold">ATRIBUTOS</h2>
 
                 <div class="estrela-container">
+                    <img src="assets/atbpactos.png" alt="Estrela de Atributos" class="estrela-img">
+
                     <div class="ponta-atributo ponta-will">
                         <div class="estrela-label">WILL</div>
                         <input type="number" id="attr-will" class="estrela-input" value="0">
@@ -350,7 +352,6 @@
                         <input type="number" id="attr-meio" class="estrela-input input-meio" value="0">
                     </div>
                 </div>
-
             </div>
         </div>
 
