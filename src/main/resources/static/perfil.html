@@ -6,40 +6,124 @@
     <title>PACTOS RPG - Meu Perfil</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #121212;
-            color: #e0e0e0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 50px;
+        /* 1. IMPORTAÇÃO DAS FONTES OFICIAIS */
+        @font-face {
+            font-family: 'LeopoldMedium';
+            src: url('fonts/Leopold.otf') format('opentype');
+        }
+        @font-face {
+            font-family: 'BloggerSansRegular';
+            src: url('fonts/BloggerSans.otf') format('opentype');
         }
 
-        /* Card Principal do Perfil */
+        /* 2. TIPOGRAFIA E FUNDO BASE */
+        body {
+            background-color: #000000;
+            color: #e0e0e0;
+            font-family: 'BloggerSansRegular', sans-serif;
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+            font-size: 1.1rem;
+        }
+
+        h1, h2, h3, h4, h5, h6, .fonte-leopold {
+            font-family: 'LeopoldMedium', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* 3. HEADER DO SISTEMA */
+        .pactos-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(90deg, #020617 0%, #1e3a8a 100%);
+            border-bottom: 1px solid #1b48ae;
+            box-shadow: 0 4px 25px rgba(29, 78, 216, 0.4);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 20px; z-index: 2; }
+
+        .menu-btn {
+            background: transparent; border: none; color: #0050af;
+            font-size: 2.2rem; cursor: pointer; transition: 0.3s;
+        }
+        .menu-btn:hover { color: #ffffff; transform: scale(1.1); text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+
+        .btn-home { color: #3b82f6; transition: 0.3s; text-decoration: none; display: flex; align-items: center;}
+        .btn-home:hover { color: #ffffff; transform: scale(1.1); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .btn-home svg { width: 30px; height: 30px; }
+
+        .pactos-logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        .pactos-logo img {
+            height: 45px; width: auto;
+            filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.6));
+            mix-blend-mode: lighten;
+        }
+
+        /* Div vazia para equilibrar o flexbox da header */
+        .header-spacer { width: 84px; }
+
+        /* 4. MENU LATERAL (SIDEBAR) */
+        .sidebar {
+            height: 100vh; width: 0; position: fixed; top: 0; left: 0;
+            background: linear-gradient(180deg, #020617 0%, #1e3a8a 100%);
+            border-right: 1px solid #3b82f6;
+            box-shadow: 5px 0 25px rgba(29, 78, 216, 0.4);
+            overflow-x: hidden; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1040; display: flex; flex-direction: column;
+        }
+        .sidebar-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid rgba(59, 130, 246, 0.3); }
+        .sidebar-header img { width: 140px; filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.6)); mix-blend-mode: lighten; }
+        .sidebar-menu { list-style: none; padding: 20px 0; margin: 0; flex-grow: 1; }
+        .sidebar-menu li a {
+            padding: 15px 30px; text-decoration: none; font-size: 1.2rem;
+            color: #dbeafe; display: block; transition: 0.3s;
+            font-family: 'LeopoldMedium', sans-serif; text-transform: uppercase;
+        }
+        .sidebar-menu li a:hover { color: #ffffff; background-color: rgba(59, 130, 246, 0.2); border-left: 5px solid #60a5fa; text-shadow: 0 0 8px rgba(255,255,255,0.5); }
+        .sidebar-menu li a.inativo { color: #64748b; cursor: default; }
+        .sidebar-menu li a.inativo:hover { background-color: transparent; border-left: none; }
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(4px);
+            z-index: 1030; display: none; opacity: 0; transition: opacity 0.4s;
+        }
+        .overlay.active { display: block; opacity: 1; }
+
+        /* 5. ÁREA CENTRAL - CARD DO PERFIL */
+        .perfil-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px); /* Subtrai a altura da header */
+            padding: 40px 15px;
+        }
+
         .profile-card {
-            background-color: #1e1e1e;
+            background-color: #0f172a;
             padding: 40px;
             border-radius: 12px;
-            border: 1px solid #333;
+            border: 1px solid #1e3a8a;
             width: 100%;
             max-width: 500px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 25px rgba(2, 6, 23, 0.8);
         }
 
-        /* Título */
         .profile-title {
             color: #ffffff;
-            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            text-shadow: 0 0 10px rgba(30, 58, 138, 0.8);
             text-align: center;
             margin-bottom: 30px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            font-family: 'LeopoldMedium', sans-serif;
+            font-size: 2rem;
         }
 
-        /* Área da Foto de Perfil */
+        /* Foto de Perfil (Sem pontilhado, apenas a foto e a sombra) */
         .profile-pic-container {
             display: flex;
             flex-direction: column;
@@ -48,11 +132,10 @@
         }
 
         .profile-pic {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            background-color: #2b2b2b;
-            border: 3px dashed #a855f7;
+            background-color: #080b12;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -60,118 +143,183 @@
             transition: 0.3s;
             position: relative;
             overflow: hidden;
-            background-image: url('https://via.placeholder.com/150/2a2a2a/111111?text=Foto');
+            background-image: url('https://via.placeholder.com/150/080b12/888888?text=FOTO');
             background-size: cover;
             background-position: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
         }
 
         .profile-pic:hover {
-            border-color: #d8b4fe;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.6);
         }
 
-        /* Efeito de hover escrito "Mudar Foto" */
+        /* Efeito de hover "Alterar" */
         .profile-pic-overlay {
             position: absolute;
             bottom: 0; left: 0; width: 100%; height: 30%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(2, 6, 23, 0.85);
             color: white;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
             transition: opacity 0.3s;
+            font-family: 'BloggerSansRegular', sans-serif;
         }
         .profile-pic:hover .profile-pic-overlay { opacity: 1; }
 
-        /* Estilização dos Inputs */
+        /* Estilização dos Inputs Genéricos */
         .form-control {
-            background-color: #151515;
-            border: 1px solid #444;
+            background-color: #080b12;
+            border: 1px solid #1e3a8a;
             color: white;
+            font-family: 'BloggerSansRegular', sans-serif;
+            transition: 0.3s;
         }
         .form-control:focus {
-            border-color: #a855f7;
-            box-shadow: 0 0 5px rgba(168, 85, 247, 0.3);
-            background-color: #1a1a1a;
+            background-color: #0f172a;
+            border-color: #3b82f6;
             color: white;
+            box-shadow: 0 0 8px rgba(30, 58, 138, 0.5);
         }
         .form-control:disabled {
-            background-color: #222;
-            color: #777;
-            border-color: #333;
+            background-color: #040812;
+            color: #64748b;
+            border-color: #1e3a8a;
             cursor: not-allowed;
         }
+        .form-label { color: #94a3b8; font-family: 'LeopoldMedium', sans-serif; font-size: 1.1rem; letter-spacing: 1px;}
 
-        /* Label do campo de Assinatura */
+        /* Badge Premium */
         .badge-premium {
-            background-color: #a855f7;
-            color: white;
+            background-color: #1e3a8a;
+            color: #93c5fd;
             font-size: 0.7rem;
             padding: 3px 6px;
             border-radius: 4px;
             margin-left: 10px;
             vertical-align: middle;
+            font-family: 'BloggerSansRegular', sans-serif;
+            letter-spacing: 0;
+            border: 1px solid #3b82f6;
         }
 
-        /* Botões */
-        .btn-purple {
-            background-color: #a855f7; color: white; border: none; font-weight: bold; transition: 0.3s;
+        /* Botões Azuis PACTOS */
+        .btn-blue {
+            background-color: #1e3a8a; color: white; border: none;
+            font-family: 'LeopoldMedium', sans-serif; letter-spacing: 1px;
+            transition: 0.3s; font-size: 1.1rem;
+            box-shadow: 0 0 10px rgba(11, 28, 62, 0.5);
         }
-        .btn-purple:hover { background-color: #9333ea; color: white; transform: translateY(-2px); }
+        .btn-blue:hover { background-color: #1d4ed8; color: white; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(29, 78, 216, 0.6); }
 
-        .btn-outline-secondary { border-color: #555; color: #aaa; transition: 0.3s; }
-        .btn-outline-secondary:hover { background-color: #333; color: white; border-color: #666; }
+        .btn-outline-blue { border-color: #1e3a8a; color: #60a5fa; font-family: 'LeopoldMedium', sans-serif; letter-spacing: 1px; transition: 0.3s; font-size: 1.1rem;}
+        .btn-outline-blue:hover { background-color: #1e3a8a; color: white; border-color: #1d4ed8; }
     </style>
 </head>
 <body>
 
-<div class="profile-card">
-    <h2 class="profile-title">GERENCIAR PERFIL</h2>
+<div id="pactosSidebar" class="sidebar">
+    <div class="sidebar-header">
+        <img src="assets/PACTOS.jpg" alt="PACTOS RPG">
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="home.html">INÍCIO</a></li>
+        <li><a href="perfil.html" style="background-color: rgba(59, 130, 246, 0.2); border-left: 5px solid #60a5fa; color: white;">MEU PERFIL</a></li>
+        <li><a href="fichas.html">AGENTES</a></li>
+        <li><a href="#" class="inativo">CAMPANHAS (EM BREVE)</a></li>
+    </ul>
+    <div style="padding: 20px; border-top: 1px solid rgba(59, 130, 246, 0.3); margin-top: auto;">
+        <button onclick="fazerLogout()" class="btn btn-outline-danger w-100" style="font-family: 'LeopoldMedium'; font-size: 1.2rem; border-width: 2px;">SAIR</button>
+    </div>
+</div>
+<div id="menuOverlay" class="overlay" onclick="toggleMenu()"></div>
 
-    <div class="profile-pic-container">
-        <input type="file" id="inputFotoPerfil" accept="image/*" style="display: none;" onchange="enviarFotoPerfilParaNuvem(event)">
-
-        <div class="profile-pic" id="imagemPreviewPerfil" onclick="document.getElementById('inputFotoPerfil').click()">
-            <div class="profile-pic-overlay">Alterar</div>
-        </div>
-
-        <span class="text-muted mt-2 small">Clique na imagem para alterar</span>
+<header class="pactos-header">
+    <div class="header-left">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <a href="fichas.html" class="btn-home" title="Voltar para Meus Agentes">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path>
+            </svg>
+        </a>
     </div>
 
-    <form onsubmit="salvarPerfil(event)">
+    <div class="pactos-logo">
+        <img src="assets/PACTOS.jpg" alt="PACTOS RPG">
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label text-muted">Nome de Usuário</label>
-            <input type="text" id="perfilNome" class="form-control" required>
+    <div class="header-spacer"></div>
+</header>
+
+<div class="perfil-wrapper">
+    <div class="profile-card">
+        <h2 class="profile-title">GERENCIAR PERFIL</h2>
+
+        <div class="profile-pic-container">
+            <input type="file" id="inputFotoPerfil" accept="image/*" style="display: none;" onchange="enviarFotoPerfilParaNuvem(event)">
+
+            <div class="profile-pic" id="imagemPreviewPerfil" onclick="document.getElementById('inputFotoPerfil').click()">
+                <div class="profile-pic-overlay">Alterar</div>
+            </div>
+
+            <span class="text-muted mt-3 small">Clique na imagem para alterar</span>
         </div>
 
-        <div class="mb-4">
-            <label class="form-label text-muted">E-mail de Contato</label>
-            <input type="email" id="perfilEmail" class="form-control" required>
-        </div>
+        <form onsubmit="salvarPerfil(event)">
+            <div class="mb-3">
+                <label class="form-label">Nome de Usuário</label>
+                <input type="text" id="perfilNome" class="form-control" required>
+            </div>
 
-        <div class="mb-4 p-3 border border-secondary rounded" style="background-color: #181818;">
-            <label class="form-label text-muted d-flex align-items-center">
-                Nível de Inclinação <span class="badge-premium">Em breve</span>
-            </label>
-            <input type="text" id="perfilInclinacao" class="form-control" value="Mundano (Padrão)" disabled>
-            <small class="text-muted mt-2 d-block" style="font-size: 0.8rem;">
-                Níveis superiores de inclinação garantirão bônus exclusivos. Esta configuração é gerenciada pelos administradores do sistema.
-            </small>
-        </div>
+            <div class="mb-4">
+                <label class="form-label">E-mail de Contato</label>
+                <input type="email" id="perfilEmail" class="form-control" required>
+            </div>
 
-        <div class="d-flex justify-content-between mt-4">
-            <a href="fichas.html" class="btn btn-outline-secondary px-4">Voltar</a>
-            <button type="submit" class="btn btn-purple px-4">Salvar Perfil</button>
-        </div>
-    </form>
+            <div class="mb-4 p-3 border rounded" style="background-color: #020617; border-color: #1e3a8a !important;">
+                <label class="form-label d-flex align-items-center">
+                    Nível de Inclinação <span class="badge-premium">Em breve</span>
+                </label>
+                <input type="text" id="perfilInclinacao" class="form-control" value="Mundano (Padrão)" disabled>
+                <small class="text-muted mt-2 d-block" style="font-size: 0.85rem;">
+                    Níveis superiores de inclinação garantirão bônus exclusivos. Esta configuração é gerenciada pelos administradores do sistema.
+                </small>
+            </div>
 
+            <div class="d-flex justify-content-between mt-4">
+                <a href="fichas.html" class="btn btn-outline-blue px-4">VOLTAR</a>
+                <button type="submit" class="btn btn-blue px-4">SALVAR PERFIL</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
-    // Pega o nome do jogador salvo no navegador
+    // Lógica do Menu
+    function toggleMenu() {
+        const sidebar = document.getElementById("pactosSidebar");
+        const overlay = document.getElementById("menuOverlay");
+        if (sidebar.style.width === "300px") {
+            sidebar.style.width = "0";
+            overlay.classList.remove("active");
+            setTimeout(() => overlay.style.display = "none", 400);
+        } else {
+            overlay.style.display = "block";
+            setTimeout(() => overlay.classList.add("active"), 10);
+            sidebar.style.width = "300px";
+        }
+    }
+
+    function fazerLogout() {
+        if(confirm("Tem certeza que deseja sair da sua conta?")) {
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = "login.html";
+        }
+    }
+
+    // Lógica original do Perfil (Intacta)
     const usuarioLogado = localStorage.getItem('usuarioLogado');
 
     if (!usuarioLogado) {
@@ -180,19 +328,16 @@
     }
 
     let linkFotoPerfil = "";
-    const IMGBB_API_KEY = "41d58ca7fde25e2553eb8a3f84e3ea9c"; // Sua chave do ImgBB
+    const IMGBB_API_KEY = "41d58ca7fde25e2553eb8a3f84e3ea9c";
 
-    // Função para carregar os dados atuais ao abrir a tela
     async function carregarPerfil() {
         try {
             const resposta = await fetch(`/api/usuarios/${usuarioLogado}`);
             if (resposta.ok) {
                 const dados = await resposta.json();
-                // IDS CORRIGIDOS AQUI:
                 document.getElementById('perfilNome').value = dados.nomeUsuario;
                 document.getElementById('perfilEmail').value = dados.email;
 
-                // Se o usuário já tiver foto salva, mostra ela na bolinha
                 if (dados.fotoUrl) {
                     linkFotoPerfil = dados.fotoUrl;
                     document.getElementById('imagemPreviewPerfil').style.backgroundImage = `url('${linkFotoPerfil}')`;
@@ -206,12 +351,11 @@
         }
     }
 
-    // Função de upload para o ImgBB
     async function enviarFotoPerfilParaNuvem(event) {
         const arquivo = event.target.files[0];
         if (!arquivo) return;
 
-        document.getElementById('imagemPreviewPerfil').style.backgroundImage = "url('https://via.placeholder.com/120x120/1e1e1e/888888?text=UP...')";
+        document.getElementById('imagemPreviewPerfil').style.backgroundImage = "url('https://via.placeholder.com/140/080b12/888888?text=UP...')";
 
         const formData = new FormData();
         formData.append("image", arquivo);
@@ -234,19 +378,16 @@
         }
     }
 
-    // Função para salvar as alterações
     async function salvarPerfil(event) {
         event.preventDefault();
 
-        // IDS CORRIGIDOS AQUI:
         const novoNome = document.getElementById('perfilNome').value;
         const novoEmail = document.getElementById('perfilEmail').value;
 
-        // Colocando a fotoUrl no pacote que vai pro Java
         const dadosAtualizados = {
             nomeUsuario: novoNome,
             email: novoEmail,
-            fotoUrl: linkFotoPerfil // O Java vai receber o link da foto!
+            fotoUrl: linkFotoPerfil
         };
 
         try {
@@ -258,7 +399,6 @@
 
             if (resposta.ok) {
                 alert("Perfil atualizado com sucesso!");
-                // Se ele mudou de nome, precisamos atualizar a memória do navegador
                 localStorage.setItem('usuarioLogado', novoNome);
                 window.location.href = "fichas.html";
             } else {
@@ -271,7 +411,6 @@
         }
     }
 
-    // Executa ao carregar a página
     carregarPerfil();
 </script>
 
