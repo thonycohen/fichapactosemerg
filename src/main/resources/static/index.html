@@ -161,7 +161,7 @@
             width: 200%;
             height: auto;
             display: block;
-            left: 50px;
+            pointer-events: none;
         }
 
         .ponta-atributo {
@@ -251,6 +251,79 @@
         .pericia-bonus input { width: 45px; background: transparent; border: none; border-bottom: 1px solid #1e3a8a; color: white; text-align: center; outline: none; font-family: 'LeopoldMedium'; font-size: 1.2rem;}
         .pericia-bonus input:focus { border-bottom-color: #3b82f6; }
         .pericia-total { flex: 1.5; text-align: center; font-family: 'LeopoldMedium'; font-size: 1.4rem; color: #60a5fa; }
+
+        /* =========================================================
+            STATUS EXTRAS: RD, VELOCIDADE, DESLOCAMENTO
+            ========================================================= */
+        .extra-status-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 35px;
+            padding: 0 5px;
+        }
+
+        .extra-status-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .extra-status-label {
+            color: #94a3b8;
+            font-family: 'LeopoldMedium';
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .extra-bg-shape {
+            position: relative; /* FUNDAMENTAL: Prende o número aqui dentro! */
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .extra-bg-rd {
+            background-image: url('assets/rd.png');
+            width: 75px; height: 85px;
+        }
+
+        .extra-bg-vel {
+            background-image: url('assets/velocidade.png');
+            width: 80px; height: 85px;
+        }
+
+        .extra-bg-desl {
+            background-image: url('assets/deslocamento.png');
+            width: 120px; height: 45px;
+        }
+
+        .extra-input {
+            position: absolute; /* Liberta apenas o input para ser movido livremente */
+            width: 80%;
+            background: transparent;
+            border: none;
+            color: white;
+            text-align: center;
+            font-size: 1.8rem;
+            font-family: 'LeopoldMedium';
+            outline: none;
+            text-shadow: 2px 2px 5px rgba(0,0,0,1);
+            transform: translate(-50%, -50%); /* Mantém o eixo do número no meio */
+        }
+
+        .extra-input:focus {
+            text-shadow: 0 0 10px rgba(96, 165, 250, 1);
+        }
+
+        /* =========================================================
+            CALIBRAGEM FINA DOS NÚMEROS (Altere as % para afinar)
+           ========================================================= */
+        .num-pos-rd   { top: 50%; left: 60%; }
+        .num-pos-vel  { top: 62%; left: 60%; } /* Exemplo: o 65% empurra o número do triângulo mais para baixo */
+        .num-pos-desl { top: 50%; left: 55%; }
     </style>
 </head>
 <body>
@@ -393,6 +466,31 @@
                 <div class="d-flex justify-content-between mb-2 status-inputs">
                     <input type="number" id="atual-energia" value="1" oninput="atualizarBarra('energia')">
                     <input type="number" id="maximo-energia" value="1" oninput="atualizarBarra('energia')">
+                </div>
+
+                <div class="extra-status-container">
+                    
+                    <div class="extra-status-item">
+                        <div class="extra-status-label">RD</div>
+                        <div class="extra-bg-shape extra-bg-rd">
+                            <input type="number" id="status-rd" class="extra-input num-pos-rd" value="0">
+                        </div>
+                    </div>
+
+                    <div class="extra-status-item">
+                        <div class="extra-status-label">VEL</div>
+                        <div class="extra-bg-shape extra-bg-vel">
+                            <input type="number" id="status-velocidade" class="extra-input num-pos-vel" value="0">
+                        </div>
+                    </div>
+
+                    <div class="extra-status-item">
+                        <div class="extra-status-label">DESL</div>
+                        <div class="extra-bg-shape extra-bg-desl">
+                            <input type="number" id="status-deslocamento" class="extra-input num-pos-desl" value="0">
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
