@@ -28,9 +28,9 @@ public class AgenteController {
         if (dono != null) {
             Agente novoAgente = new Agente();
             novoAgente.setUsuario(dono);
-            novoAgente.setNome("Novo Agente");
+            novoAgente.setNome("");
             novoAgente.setNivel(0);
-            novoAgente.setOrigem("Desconhecida");
+            novoAgente.setOrigem("");
             return ResponseEntity.ok(agenteRepository.save(novoAgente));
         }
         return ResponseEntity.badRequest().build();
