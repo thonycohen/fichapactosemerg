@@ -75,6 +75,9 @@ public class AgenteController {
             fichaExistente.setOrigem(dadosAtualizados.getOrigem());
             fichaExistente.setNivel(dadosAtualizados.getNivel());
 
+            // ADICIONADO AQUI: Salva a Idade do Personagem
+            fichaExistente.setIdade(dadosAtualizados.getIdade());
+
             // AQUI ESTÁ! Ensinando o Java a guardar o link do ImgBB
             fichaExistente.setFotoUrl(dadosAtualizados.getFotoUrl());
 

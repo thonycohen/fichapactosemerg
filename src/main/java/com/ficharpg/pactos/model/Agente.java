@@ -18,7 +18,15 @@ public class Agente {
     private String fotoUrl; // Guarda apenas o link do Imgur
 
 
+    private Integer idade;
 
+    public Integer getIdade() {
+        return idade;
+    }
+
+    public void setIdade(Integer idade) {
+        this.idade = idade;
+    }
 
     // Status Vitais
     private int vidaMaxima = 10;
