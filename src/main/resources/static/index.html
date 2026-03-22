@@ -140,6 +140,7 @@
         /* Campos de Input Genéricos */
         .form-control { background-color: #080b12; border: 1px solid #1e3a8a; color: white; transition: 0.3s; }
         .form-control:focus { background-color: #0f172a; border-color: #3b82f6; color: white; box-shadow: 0 0 8px rgba(30, 58, 138, 0.5); }
+        .form-control[readonly] { background-color: #040812; color: #64748b; }
         label { color: #94a3b8; font-size: 1rem; margin-bottom: 5px; }
         .section-title { color: #ffffff; text-shadow: 0 0 10px rgba(30, 58, 138, 0.8); text-align: center; margin-bottom: 25px; font-size: 1.8rem; }
 
@@ -149,14 +150,12 @@
         .estrela-container {
             position: relative;
             width: 100%;
-            max-width: 400px; /* Tamanho máximo da estrela */
+            max-width: 400px;
             margin: 20px auto;
             display: flex;
             justify-content: center;
-            /* Removemos o background-image daqui! */
         }
 
-        /* A imagem dita o tamanho exato do container agora */
         .estrela-img {
             width: 200%;
             height: auto;
@@ -170,18 +169,14 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             transform: translate(-50%, -50%);
-            /* DICA DE CALIBRAÇÃO: Retire os comentários da linha abaixo para ver caixas vermelhas e ajudar a alinhar! */
-            /* border: 2px solid red; background-color: rgba(255,0,0,0.3); */
         }
 
-        /* Coordenadas - Pode alterar as percentagens se precisar de afinar! */
         .ponta-will { top: 24%; left: 51%; }
         .ponta-agi  { top: 40%; left: 78%; }
         .ponta-int  { top: 67%; left: 82%; }
         .ponta-car  { top: 81%; left: 49%; }
         .ponta-con  { top: 67%; left: 22%; }
         .ponta-rig  { top: 40%; left: 23%; }
-
         .ponta-meio { top: 51%; left: 50%; }
 
         .estrela-label {
@@ -201,7 +196,8 @@
             z-index: 2;
         }
         .estrela-input:focus { outline: none; text-shadow: 0 0 15px rgba(96, 165, 250, 1); }
-        .input-meio { font-size: 3.8rem; color: #93c5fd; margin-top: 10px; }
+        .estrela-input[readonly] { cursor: not-allowed; }
+        .input-meio { font-size: 3.8rem; color: #93c5fd; margin-top: 10px; text-shadow: 0 0 15px rgba(255,193,7,0.6); }
 
         /* BARRAS DE STATUS */
         .bar-container { position: relative; height: 35px; background-color: #080b12; border-radius: 6px; margin-bottom: 10px; overflow: hidden; border: 1px solid #1e3a8a; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); }
@@ -217,9 +213,11 @@
         .bg-vida { background: linear-gradient(90deg, #5a0000, #dc3545); }
         .bg-sanidade { background: linear-gradient(90deg, #001f5c, #0d6efd); }
         .bg-energia { background: linear-gradient(90deg, #8a6700, #ffc107); color: black; text-shadow: none; }
+        .bg-pecaminosa { background: linear-gradient(90deg, #2a0000, #660000); color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.9); }
 
         .status-inputs input { text-align: center; font-family: 'LeopoldMedium'; font-size: 1.3rem; background-color: #080b12; color: white; border: 1px solid #1e3a8a; border-radius: 4px; padding: 5px; width: 70px;}
         .status-inputs input:focus { border-color: #3b82f6; outline: none; }
+        .status-inputs input[readonly] { background-color: #040812; color: #64748b; border-color: #1b306b; }
 
         /* ABAS E TABELAS */
         .nav-tabs { border-bottom: 1px solid #1e3a8a; margin-top: 40px; }
@@ -279,7 +277,7 @@
         }
 
         .extra-bg-shape {
-            position: relative; /* FUNDAMENTAL: Prende o número aqui dentro! */
+            position: relative;
             background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
@@ -301,7 +299,7 @@
         }
 
         .extra-input {
-            position: absolute; /* Liberta apenas o input para ser movido livremente */
+            position: absolute;
             width: 80%;
             background: transparent;
             border: none;
@@ -311,18 +309,14 @@
             font-family: 'LeopoldMedium';
             outline: none;
             text-shadow: 2px 2px 5px rgba(0,0,0,1);
-            transform: translate(-50%, -50%); /* Mantém o eixo do número no meio */
+            transform: translate(-50%, -50%);
         }
 
-        .extra-input:focus {
-            text-shadow: 0 0 10px rgba(96, 165, 250, 1);
-        }
+        .extra-input:focus { text-shadow: 0 0 10px rgba(96, 165, 250, 1); }
+        .extra-input[readonly] { cursor: not-allowed; text-shadow: none; color: #94a3b8; }
 
-        /* =========================================================
-            CALIBRAGEM FINA DOS NÚMEROS (Altere as % para afinar)
-           ========================================================= */
         .num-pos-rd   { top: 50%; left: 60%; }
-        .num-pos-vel  { top: 62%; left: 60%; } /* Exemplo: o 65% empurra o número do triângulo mais para baixo */
+        .num-pos-vel  { top: 62%; left: 60%; }
         .num-pos-desl { top: 50%; left: 55%; }
     </style>
 </head>
@@ -388,11 +382,11 @@
                 <div class="row g-2">
                     <div class="col-6">
                         <label>Nível</label>
-                        <input type="number" id="ficha-nivel" class="form-control" value="0">
+                        <input type="number" id="ficha-nivel" class="form-control" value="0" oninput="calcularStatusAutomaticos()">
                     </div>
                     <div class="col-6">
                         <label>Idade</label>
-                        <input type="number" id="ficha-idade" class="form-control" placeholder="Anos">
+                        <input type="number" id="ficha-idade" class="form-control" placeholder="Anos" oninput="calcularStatusAutomaticos()">
                     </div>
                 </div>
             </div>
@@ -407,31 +401,31 @@
 
                     <div class="ponta-atributo ponta-will">
                         <div class="estrela-label"></div>
-                        <input type="number" id="attr-will" class="estrela-input" value="0">
+                        <input type="number" id="attr-will" class="estrela-input" value="0" oninput="calcularStatusAutomaticos()">
                     </div>
                     <div class="ponta-atributo ponta-agi">
                         <div class="estrela-label"></div>
-                        <input type="number" id="attr-agi" class="estrela-input" value="0">
+                        <input type="number" id="attr-agi" class="estrela-input" value="0" oninput="calcularStatusAutomaticos()">
                     </div>
                     <div class="ponta-atributo ponta-int">
                         <div class="estrela-label"></div>
-                        <input type="number" id="attr-int" class="estrela-input" value="0">
+                        <input type="number" id="attr-int" class="estrela-input" value="0" oninput="calcularStatusAutomaticos()">
                     </div>
                     <div class="ponta-atributo ponta-car">
                         <div class="estrela-label"></div>
-                        <input type="number" id="attr-car" class="estrela-input" value="0">
+                        <input type="number" id="attr-car" class="estrela-input" value="0" oninput="calcularStatusAutomaticos()">
                     </div>
                     <div class="ponta-atributo ponta-con">
                         <div class="estrela-label"></div>
-                        <input type="number" id="attr-con" class="estrela-input" value="0">
+                        <input type="number" id="attr-con" class="estrela-input" value="0" oninput="calcularStatusAutomaticos()">
                     </div>
                     <div class="ponta-atributo ponta-rig">
                         <div class="estrela-label"></div>
-                        <input type="number" id="attr-rig" class="estrela-input" value="0">
+                        <input type="number" id="attr-rig" class="estrela-input" value="0" oninput="calcularStatusAutomaticos()">
                     </div>
 
-                    <div class="ponta-atributo ponta-meio">
-                        <input type="number" id="attr-meio" class="estrela-input input-meio" value="0">
+                    <div class="ponta-atributo ponta-meio" id="ev-meio-container" style="display: none;">
+                        <input type="number" id="attr-meio" class="estrela-input input-meio" value="0" readonly>
                     </div>
                 </div>
             </div>
@@ -447,7 +441,7 @@
                 </div>
                 <div class="d-flex justify-content-between mb-4 status-inputs">
                     <input type="number" id="atual-vida" value="10" oninput="atualizarBarra('vida')">
-                    <input type="number" id="maximo-vida" value="10" oninput="atualizarBarra('vida')">
+                    <input type="number" id="maximo-vida" value="10" readonly>
                 </div>
 
                 <div class="bar-container">
@@ -456,16 +450,18 @@
                 </div>
                 <div class="d-flex justify-content-between mb-4 status-inputs">
                     <input type="number" id="atual-sanidade" value="70" oninput="atualizarBarra('sanidade')">
-                    <input type="number" id="maximo-sanidade" value="70" oninput="atualizarBarra('sanidade')">
+                    <input type="number" id="maximo-sanidade" value="70" readonly>
                 </div>
 
-                <div class="bar-container">
-                    <div class="bar-fill bg-energia" id="barra-energia" style="width: 100%;"></div>
-                    <div class="bar-text" id="texto-energia">Energia Vital (EV) - 1/1</div>
-                </div>
-                <div class="d-flex justify-content-between mb-2 status-inputs">
-                    <input type="number" id="atual-energia" value="1" oninput="atualizarBarra('energia')">
-                    <input type="number" id="maximo-energia" value="1" oninput="atualizarBarra('energia')">
+                <div id="ev-bar-container" style="display: none;">
+                    <div class="bar-container">
+                        <div class="bar-fill bg-energia" id="barra-energia" style="width: 100%;"></div>
+                        <div class="bar-text" id="texto-energia">Energia Vital (EV) - 1/1</div>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2 status-inputs">
+                        <input type="number" id="atual-energia" value="1" oninput="atualizarBarra('energia')">
+                        <input type="number" id="maximo-energia" value="1" readonly>
+                    </div>
                 </div>
 
                 <div class="extra-status-container">
@@ -473,14 +469,14 @@
                     <div class="extra-status-item">
                         <div class="extra-status-label">RD</div>
                         <div class="extra-bg-shape extra-bg-rd">
-                            <input type="number" id="status-rd" class="extra-input num-pos-rd" value="0">
+                            <input type="number" id="status-rd" class="extra-input num-pos-rd" value="0" readonly>
                         </div>
                     </div>
 
                     <div class="extra-status-item">
                         <div class="extra-status-label">VEL</div>
                         <div class="extra-bg-shape extra-bg-vel">
-                            <input type="number" id="status-velocidade" class="extra-input num-pos-vel" value="0">
+                            <input type="number" id="status-velocidade" class="extra-input num-pos-vel" value="0" readonly>
                         </div>
                     </div>
 
@@ -630,18 +626,111 @@
 
     renderizarPericias();
 
+    // --- NOVA FUNÇÃO DE MATEMÁTICA AUTOMÁTICA ---
+    function calcularStatusAutomaticos() {
+        const pegarInt = (id) => parseInt(document.getElementById(id).value) || 0;
+
+        const idade = pegarInt('ficha-idade');
+        const nivel = pegarInt('ficha-nivel');
+        
+        const will = pegarInt('attr-will');
+        const agi = pegarInt('attr-agi');
+        const int = pegarInt('attr-int');
+        const car = pegarInt('attr-car');
+        const con = pegarInt('attr-con');
+        const rig = pegarInt('attr-rig');
+
+        // 1. Cálculo de Vida (Tabela de Idade Oficial PACTOS)
+        let pvBase = 10; // Padrão para caso fique vazio ou negativo
+
+        if (idade >= 0 && idade <= 9) {
+            pvBase = 10;
+        } else if (idade >= 10 && idade <= 14) {
+            pvBase = 15;
+        } else if (idade >= 15 && idade <= 19) {
+            pvBase = 25;
+        } else if (idade >= 20 && idade <= 29) {
+            pvBase = 35;
+        } else if (idade >= 30 && idade <= 39) {
+            pvBase = 45;
+        } else if (idade >= 40 && idade <= 49) {
+            pvBase = 40;
+        } else if (idade >= 50) {
+            pvBase = 35;
+        }
+        
+        // Aplica a fórmula: PV Base + CON + RIG
+        document.getElementById('maximo-vida').value = pvBase + con + rig;
+        atualizarBarra('vida');
+
+        // 2. Cálculo de Sanidade
+        document.getElementById('maximo-sanidade').value = 70 + will;
+        atualizarBarra('sanidade');
+
+        // 3. Sistema de Energia Vital (EV) / Pecaminosa (EP)
+        const evMaximo = will + agi + int + car + con + rig;
+        document.getElementById('attr-meio').value = evMaximo;
+        document.getElementById('maximo-energia').value = evMaximo;
+        
+        const evBarContainer = document.getElementById('ev-bar-container');
+        const evMeioContainer = document.getElementById('ev-meio-container');
+        
+        // Só aparece do nível 50 pra cima
+        if (nivel >= 50) {
+            evBarContainer.style.display = 'block';
+            evMeioContainer.style.display = 'flex';
+        } else {
+            evBarContainer.style.display = 'none';
+            evMeioContainer.style.display = 'none';
+        }
+        atualizarBarra('energia');
+
+        // 4. Defesa, Velocidade e Deslocamento
+        document.getElementById('status-rd').value = 6 + con + will;
+        document.getElementById('status-velocidade').value = 9 + con + agi;
+        
+        const deslInput = document.getElementById('status-deslocamento');
+        if (deslInput.value === "0" || deslInput.value === "") {
+            deslInput.value = 9; // Valor padrão se estiver vazio
+        }
+    }
+
+    // --- NOVA FUNÇÃO ATUALIZAR BARRA (COM ENERGIA PECAMINOSA) ---
     function atualizarBarra(tipo) {
         const atual = parseInt(document.getElementById(`atual-${tipo}`).value) || 0;
         const maximo = parseInt(document.getElementById(`maximo-${tipo}`).value) || 1;
         let porcentagem = (atual / maximo) * 100;
-        if (porcentagem > 100) porcentagem = 100;
-        if (porcentagem < 0) porcentagem = 0;
-        document.getElementById(`barra-${tipo}`).style.width = `${porcentagem}%`;
-        let nomeStatus = '';
-        if (tipo === 'vida') nomeStatus = 'Pontos de Vida (PV)';
-        if (tipo === 'sanidade') nomeStatus = 'Sanidade (SAN)';
-        if (tipo === 'energia') nomeStatus = 'Energia Vital (EV)';
-        document.getElementById(`texto-${tipo}`).innerText = `${nomeStatus} - ${atual}/${maximo}`;
+        let barra = document.getElementById(`barra-${tipo}`);
+        
+        if (tipo === 'vida') {
+            if (porcentagem > 100) porcentagem = 100;
+            if (porcentagem < 0) porcentagem = 0;
+            barra.style.width = `${porcentagem}%`;
+            document.getElementById(`texto-${tipo}`).innerText = `Pontos de Vida (PV) - ${atual}/${maximo}`;
+        }
+        else if (tipo === 'sanidade') {
+            if (porcentagem > 100) porcentagem = 100;
+            if (porcentagem < 0) porcentagem = 0;
+            barra.style.width = `${porcentagem}%`;
+            document.getElementById(`texto-${tipo}`).innerText = `Sanidade (SAN) - ${atual}/${maximo}`;
+        }
+        else if (tipo === 'energia') {
+            // A MÁGICA DA ENERGIA PECAMINOSA (Valores Negativos ou Zero)
+            if (atual <= 0) {
+                let ep = Math.abs(atual); // Transforma -5 em 5 positivos
+                let percEP = (ep / maximo) * 100;
+                if (percEP > 100) percEP = 100;
+                
+                barra.style.width = `${percEP}%`;
+                barra.className = 'bar-fill bg-pecaminosa'; // Fica Vermelho Sangue
+                document.getElementById(`texto-${tipo}`).innerText = `Energia Pecaminosa (EP) - ${ep}/${maximo}`;
+            } else {
+                if (porcentagem > 100) porcentagem = 100;
+                barra.style.width = `${porcentagem}%`;
+                barra.className = 'bar-fill bg-energia'; // Fica Dourado Normal
+                document.getElementById(`texto-${tipo}`).innerText = `Energia Vital (EV) - ${atual}/${maximo}`;
+            }
+        }
     }
 
     function empacotarLista(abaId) {
@@ -748,6 +837,10 @@
                 preencherSeExistir('attr-will', ficha.will); preencherSeExistir('attr-agi', ficha.agilidade);
                 preencherSeExistir('attr-int', ficha.inteligencia); preencherSeExistir('attr-rig', ficha.forca);
                 preencherSeExistir('attr-car', ficha.presenca); preencherSeExistir('attr-con', ficha.vigor);
+                
+                // MÁGICA ACONTECENDO AO CARREGAR O BANCO DE DADOS:
+                calcularStatusAutomaticos();
+                
             } else { alert("Ficha não encontrada."); }
         } catch (erro) { console.error("Erro:", erro); }
     }
@@ -780,7 +873,6 @@
             origem: pegarValor('ficha-origem', false), nivel: pegarValor('ficha-nivel'), idade: pegarValor('ficha-idade'),
             vidaAtual: pegarValor('atual-vida'), vidaMaxima: pegarValor('maximo-vida'), sanidadeAtual: pegarValor('atual-sanidade'),
             sanidadeMaxima: pegarValor('maximo-sanidade'), energiaAtual: pegarValor('atual-energia'), energiaMaxima: pegarValor('maximo-energia'),
-            /* -- NOVOS STATUS EXTRAS AQUI -- */
             rd: pegarValor('status-rd'), velocidade: pegarValor('status-velocidade'), deslocamento: pegarValor('status-deslocamento'),
             periciasDados: JSON.stringify(pacotePericias), pactosDados: empacotarLista('pactos'), inventarioDados: empacotarLista('inventario'),
             will: pegarValor('attr-will'), agilidade: pegarValor('attr-agi'), inteligencia: pegarValor('attr-int'),
