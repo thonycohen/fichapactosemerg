@@ -717,6 +717,9 @@
                 preencherSeExistir('ficha-nome', ficha.nome); preencherSeExistir('ficha-jogador', ficha.jogador);
                 preencherSeExistir('ficha-origem', ficha.origem); preencherSeExistir('ficha-nivel', ficha.nivel);
                 preencherSeExistir('ficha-idade', ficha.idade);
+                preencherSeExistir('status-rd', ficha.rd);
+                preencherSeExistir('status-velocidade', ficha.velocidade);
+                preencherSeExistir('status-deslocamento', ficha.deslocamento);
 
                 if (ficha.fotoUrl) {
                     linkFotoAgente = ficha.fotoUrl;
@@ -777,6 +780,8 @@
             origem: pegarValor('ficha-origem', false), nivel: pegarValor('ficha-nivel'), idade: pegarValor('ficha-idade'),
             vidaAtual: pegarValor('atual-vida'), vidaMaxima: pegarValor('maximo-vida'), sanidadeAtual: pegarValor('atual-sanidade'),
             sanidadeMaxima: pegarValor('maximo-sanidade'), energiaAtual: pegarValor('atual-energia'), energiaMaxima: pegarValor('maximo-energia'),
+            /* -- NOVOS STATUS EXTRAS AQUI -- */
+            rd: pegarValor('status-rd'), velocidade: pegarValor('status-velocidade'), deslocamento: pegarValor('status-deslocamento'),
             periciasDados: JSON.stringify(pacotePericias), pactosDados: empacotarLista('pactos'), inventarioDados: empacotarLista('inventario'),
             will: pegarValor('attr-will'), agilidade: pegarValor('attr-agi'), inteligencia: pegarValor('attr-int'),
             forca: pegarValor('attr-rig'), presenca: pegarValor('attr-car'), vigor: pegarValor('attr-con')

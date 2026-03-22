@@ -28,6 +28,10 @@ public class Agente {
         this.idade = idade;
     }
 
+    private Integer rd = 0;
+    private Integer velocidade = 0;
+    private Integer deslocamento = 0;
+
     // Status Vitais
     private int vidaMaxima = 10;
     private int vidaAtual = 10;
@@ -131,4 +135,13 @@ public class Agente {
     // Gere o Getter e Setter lá embaixo:
     public String getFotoUrl() { return fotoUrl; }
     public void setFotoUrl(String fotoUrl) { this.fotoUrl = fotoUrl; }
+
+    public Integer getRd() { return rd; }
+    public void setRd(Integer rd) { this.rd = rd; }
+
+    public Integer getVelocidade() { return velocidade; }
+    public void setVelocidade(Integer velocidade) { this.velocidade = velocidade; }
+
+    public Integer getDeslocamento() { return deslocamento; }
+    public void setDeslocamento(Integer deslocamento) { this.deslocamento = deslocamento; }
 }

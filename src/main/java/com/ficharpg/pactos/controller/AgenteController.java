@@ -102,6 +102,10 @@ public class AgenteController {
             fichaExistente.setPactosDados(dadosAtualizados.getPactosDados());
             fichaExistente.setInventarioDados(dadosAtualizados.getInventarioDados());
 
+            fichaExistente.setRd(dadosAtualizados.getRd());
+            fichaExistente.setVelocidade(dadosAtualizados.getVelocidade());
+            fichaExistente.setDeslocamento(dadosAtualizados.getDeslocamento());
+
             // Guarda tudo no MySQL
             return ResponseEntity.ok(agenteRepository.save(fichaExistente));
         }
